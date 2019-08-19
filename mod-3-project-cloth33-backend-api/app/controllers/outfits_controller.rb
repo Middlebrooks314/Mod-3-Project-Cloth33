@@ -17,10 +17,6 @@ class OutfitsController < ApplicationController
     def show
         outfit = Outfit.find_by(id: params[:id])
         render json: outfit , include:[:items] , except:[:created_at]
-    end
-
-
-
-    
+    end 
 end
 

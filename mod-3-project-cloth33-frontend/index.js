@@ -1,5 +1,7 @@
 const hostURL = 'http://localhost:3000/'
 const defaultElementStyle = 'block'
+
+const itemForm = document.getElementById('item-form')
 // DOMContentLoaded
 
 document.addEventListener('DOMContentLoaded' , ()=>{
@@ -10,6 +12,8 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         loadClosetManager()
     })
 })
+
+console.log(itemForm)
 // DOMContentLoaded End
 
 function hideElement(htmlElement , makeVisible){
@@ -37,7 +41,7 @@ function outfitView(){
 }
 
 function loginUser(username){
-    fetch(hostURL , {
+    fetch(hostURL + '/users', {
         method: 'POST' ,
         headers:{
             'Content-Type' : 'application/json' , 
