@@ -2,7 +2,14 @@ class UsersController < ApplicationController
     
     def index
         users = User.all
-        render json: users , include:[:items]
+        #render json: users , include:[:items , :outfits]
+        render json: users.to_json(include: {
+            items: {except: [:created_at , :updated_at]} ,
+            outfits: {except: [:created_at , :updated_at] , include: {
+                items: {except: [:created_at , :updated_at]}
+            }}
+        },
+        except: [:created_at , :updated_at])
     end
 
     def create
@@ -15,12 +22,38 @@ class UsersController < ApplicationController
             new_item.name = "#{Faker::Company.name} #{Item.clothing_types.shuffle[0]}"
             new_item.save
         end
+
+        6.times do
+            outfit = Outfit.new(user_id: user.id)
+            temp = []
+            3.times do
+                new_item = user.items.shuffle[0]
+                temp << new_item
+            end
+            puts '====================================='
+            puts temp
+            temp = temp.uniq
+            temp.each do |item|
+                outfit.items << item
+            end
+
+            outfit.save
+        end
+
         render json: user
     end 
 
     def show 
-        user = User.find_by(username: params[:username])
-        render json: user, include: [:items]
+        #user = User.find_by(username: params[:username])
+        user = User.find_by(id: params[:id])
+        #render json: user, include: [:items]
+        render json: user.to_json(include: {
+            items: {except: [:created_at , :updated_at]} ,
+            outfits: {except: [:created_at , :updated_at] , include: {
+                items: {except: [:created_at , :updated_at]}
+            }}
+        },
+        except: [:created_at , :updated_at])
     end 
 
     def destroy
