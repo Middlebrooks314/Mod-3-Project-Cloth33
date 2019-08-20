@@ -1,5 +1,5 @@
 const hostURL = 'http://localhost:3000/'
-const defaultElementStyle = 'block'
+const defaultElementStyle = 'flex'
 const itemForm = document.getElementById('item-form')
 // DOMContentLoaded
 
@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
 
 
 })
+
 let userId = 1
 function addNewItem() {
     itemForm.addEventListener('submit', (event) => {
@@ -74,5 +75,6 @@ function loginUser(name){
         return resp.json();
     }).then(json =>{
         console.log(json)
+        
     })
 }
