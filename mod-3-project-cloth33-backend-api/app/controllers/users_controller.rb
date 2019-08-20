@@ -40,7 +40,13 @@ class UsersController < ApplicationController
             outfit.save
         end
 
-        render json: user
+        render json: user.to_json(include: {
+            items: {except: [:created_at , :updated_at]} ,
+            outfits: {except: [:created_at , :updated_at] , include: {
+                items: {except: [:created_at , :updated_at]}
+            }}
+        },
+        except: [:created_at , :updated_at])
     end 
 
     def show 
