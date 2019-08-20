@@ -7,6 +7,14 @@ class UsersController < ApplicationController
 
     def create
         user = User.create(user_params)
+        # random-generated clothing
+        30.times do |new_item|
+            new_url = "https://picsum.photos/id/#{rand(1..1000)}/200/300"
+
+            new_item = Item.new(user_id: user.id , category: Item.categories.shuffle[0] , img_url: new_url , name: 'Name!')
+            new_item.name = "#{Faker::Company.name} #{Item.clothing_types.shuffle[0]}"
+            new_item.save
+        end
         render json: user
     end 
 
@@ -20,10 +28,8 @@ class UsersController < ApplicationController
         render json: "User Deleted!"
     end
 
-    private 
-
+    private
     def user_params 
-        #params.require(:user).permit(:username)
         params.require(:user).permit(:username)
     end 
 
