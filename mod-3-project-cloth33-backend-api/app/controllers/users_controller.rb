@@ -54,6 +54,7 @@ class UsersController < ApplicationController
             }}
         },
         except: [:created_at , :updated_at])
+
     end 
 
     def destroy
