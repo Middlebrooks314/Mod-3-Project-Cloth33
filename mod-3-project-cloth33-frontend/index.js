@@ -7,16 +7,16 @@ let userId = 1
 
 
 document.addEventListener('DOMContentLoaded' , ()=>{
-    const loginForm = document.getElementById('login-form')
-    loginForm.addEventListener('submit' , (event) =>{
+    const newUserForm = document.getElementById('new-user-form')
+    newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
-        loginUser(loginForm.username.value);
-        hideElement(loginForm , false)
+        createUser(newUserForm.username.value);
+        hideElement(newUserForm, false)
         addNewItem()
     })
 })
 
-function loginUser(name){
+const createUser = (name) =>{
     fetch(hostURL + 'users', {
         method: 'POST' ,
         headers:{
@@ -36,6 +36,8 @@ function loginUser(name){
     })
 }
 
+
+
 // load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
 const renderNewItems = (items) => {
     // console.log(items)
@@ -54,13 +56,18 @@ const createItemElements = (item) => {
     let deleteButton = document.createElement('button')
         deleteButton.innerHTML = 'X'
 
-    itemDiv.append(itemNameH3, itemImage, deleteButton)
-    closetDiv.append(itemDiv)
+    deleteButton.addEventListener("click", event =>{
+        fetch(`${hostURL}items/${item.id}`, {
+            method: "DELETE"
+        }).then(event.target.parentNode.remove())
+    })
+        itemDiv.append(itemNameH3, itemImage, deleteButton)
+        closetDiv.append(itemDiv)
 
 }
 
 
-function addNewItem() {
+const addNewItem = () => {
     itemForm.addEventListener('submit', (event) => {
         event.preventDefault()
         let formData = {
