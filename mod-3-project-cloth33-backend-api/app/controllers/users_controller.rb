@@ -22,12 +22,48 @@ class UsersController < ApplicationController
             new_item.name = "#{Faker::Company.name} #{Item.clothing_types.shuffle[0]}"
             new_item.save
         end
+<<<<<<< HEAD
         render json: user, include: [:items]
     end 
 
     def show 
         user = User.find(params[:id])
         render json: user, include: [:items]
+=======
+
+        6.times do
+            outfit = Outfit.new(user_id: user.id)
+            temp = []
+            3.times do
+                new_item = user.items.shuffle[0]
+                temp << new_item
+            end
+            puts '====================================='
+            puts temp
+            temp = temp.uniq
+            temp.each do |item|
+                outfit.items << item
+            end
+
+            outfit.save
+        end
+
+        render json: user
+    end 
+
+    def show 
+        #user = User.find_by(username: params[:username])
+        user = User.find_by(id: params[:id])
+        #render json: user, include: [:items]
+        render json: user.to_json(include: {
+            items: {except: [:created_at , :updated_at]} ,
+            outfits: {except: [:created_at , :updated_at] , include: {
+                items: {except: [:created_at , :updated_at]}
+            }}
+        },
+        except: [:created_at , :updated_at])
+
+>>>>>>> f5166a4d99a8b58a9df926449b7c4d02fde93e6c
     end 
 
     def destroy
