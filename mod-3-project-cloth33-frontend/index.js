@@ -2,19 +2,26 @@ const hostURL = 'http://localhost:3000/'
 const defaultElementStyle = 'flex'
 const itemForm = document.getElementById('item-form')
 // DOMContentLoaded
-
+let userId = 1
 document.addEventListener('DOMContentLoaded' , ()=>{
     const loginForm = document.getElementById('login-form')
     loginForm.addEventListener('submit' , (e) =>{
         e.preventDefault();
         loginUser(loginForm.username.value);
         hideElement(loginForm , false)
+        fetchUserItems()
+        
     })
-
-
 })
 
-let userId = 1
+// load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
+const fetchUserItems = () => {
+    fetch(`${hostURL}users/${userId}`)
+        .then(resp => resp.json())
+        .then(console.log)
+}
+
+
 function addNewItem() {
     itemForm.addEventListener('submit', (event) => {
         event.preventDefault()
@@ -46,10 +53,8 @@ function hideElement(htmlElement , makeVisible){
 
 
 
-// load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
-function loadClosetManager(){
 
-}
+
 
 //load the outfit-creation screen to USE EXISTING CLOTHES
 function loadOutfitCreator(){
@@ -75,6 +80,7 @@ function loginUser(name){
         return resp.json();
     }).then(json =>{
         console.log(json)
-        
+        userId = json['id']
+        console.log(userId)
     })
 }
