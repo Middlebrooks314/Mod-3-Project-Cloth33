@@ -1,7 +1,7 @@
 const hostURL = 'http://localhost:3000/'
 const defaultElementStyle = 'flex'
 const itemForm = document.getElementById('item-form')
-const closetDiv = document.getElementById('item-container')
+//const closetDiv = document.getElementById('item-container')
 const mainPageContent = document.getElementById('main-page-content')
 // DOMContentLoaded
 let userId = 1
@@ -13,20 +13,22 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         event.preventDefault();
         createUser(newUserForm.username.value);
         hideElement(newUserForm, false)
-        addNewItem()
+        
+        // get the clothing screen to render here with a new fetch request
     })
 
 
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
-        createClothesViewer();
+        createClothesViewer(1);
+
     })
 
     document.getElementById('outfits').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
-        createOutfitViewer();
+        createOutfitViewer(1);
     })
     document.getElementById('outfit-creator').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
@@ -62,6 +64,7 @@ const createUser = (name) =>{
 const renderNewItems = (items) => {
     // console.log(items)
     for(const item of items){
+
         createItemElements(item)    
     }    
 }
@@ -82,7 +85,8 @@ const createItemElements = (item) => {
         }).then(event.target.parentNode.remove())
     })
         itemDiv.append(itemNameH3, itemImage, deleteButton)
-        closetDiv.append(itemDiv)
+        //closetDiv.append(itemDiv)
+        mainPageContent.append(itemDiv)
 
 }
 
@@ -137,14 +141,9 @@ function outfitView(){
 
 // clears out the main-page-content div
 function unrenderMPC(){
-    while(mainPageContent.firstChild)
+    while(mainPageContent.firstChild){
         mainPageContent.removeChild(mainPageContent.firstChild)
-}
-
-function createOutfitCreator(){
-    let viewPanel = document.createElement('div')
-    viewPanel.className = 'card'
-    mainPageContent.appendChild(viewPanel)
+    }
 }
 
 function createOutfitViewer(){
@@ -196,3 +195,77 @@ function createOutfitViewer(){
     })
 }
 
+
+// input the user-id for it to be added into the link
+// this function will only be called when the user is logged in, due to the button-action
+function createClothesViewer(myUserId){
+    // this renders clothes
+    fetch(`${hostURL}users/${myUserId}`)
+    .then(resp =>{
+        return resp.json();
+    }).then(json =>{
+        //console.log(json)
+        //console.log(json['items'][0]['img_url'])
+        userId = myUserId
+        console.log(userId)
+        renderNewItems(json.items)
+    })
+
+}
+
+
+
+function createOutfitCreator(myUserId=1){
+
+    // create the clothing-creator div
+    let outfitDiv = document.createElement('div')
+    outfitDiv.id = 'outfit-div'
+    mainPageContent.appendChild(outfitDiv)
+
+    // create and populate the clothing div
+    let clothingDiv = document.createElement('div')
+    clothingDiv.id = 'clothing-div'
+    mainPageContent.appendChild(clothingDiv)
+
+    fetch(`${hostURL}users/${myUserId}`)
+    .then(resp =>{
+        return resp.json();
+    }).then(json =>{
+        //console.log(json)
+        //console.log(json['items'][0]['img_url'])
+        userId = myUserId
+        console.log(userId)
+        //renderNewItems(json.items)
+        json.items.forEach(item =>{
+            //console.log(item)
+
+            let itemDiv = document.createElement('div')
+            let itemNameH3 = document.createElement('h4')
+                itemNameH3.innerText = item.name
+            let itemImage = document.createElement('img')
+                itemImage.className = 'item-avatar'
+                itemImage.src = item.img_url
+            let deleteButton = document.createElement('button')
+                deleteButton.innerHTML = 'X'
+        
+            deleteButton.addEventListener("click", event =>{
+                fetch(`${hostURL}items/${item.id}`, {
+                    method: "DELETE"
+                }).then(event.target.parentNode.remove())
+            })
+                itemDiv.append(itemNameH3, itemImage, deleteButton)
+                //closetDiv.append(itemDiv)
+                clothingDiv.append(itemDiv)
+
+                // event listener to add an item to the outfit
+                itemDiv.addEventListener('click' , ()=>{
+
+                })
+        
+        })
+    })
+
+
+    //unrenderMPC();
+    //mainPageContent.appendChild(clothingDiv)
+}
