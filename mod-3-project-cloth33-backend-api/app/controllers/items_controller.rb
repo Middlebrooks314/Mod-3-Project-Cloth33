@@ -2,12 +2,23 @@ class ItemsController < ApplicationController
 
     def index 
         items = Item.all 
-        render json: items, include: [:user]
-    end 
+        #render json: items, include: [:user]
+        render json: items.to_json(include: {user: {except: [:created_at , :updated_at]} } ,
+         except: [:created_at , :updated_at])
+    end
+
+    def show
+        item = Item.find_by(id: params[:id])
+        render json: item.to_json(include: {user: {except: [:created_at , :updated_at]} } ,
+         except: [:created_at , :updated_at])
+    end
+
 
     def create 
         item = Item.create(item_params)
-        render json: item
+        #render json: item
+        render json: item.to_json(include: {user: {except: [:created_at , :updated_at]} } ,
+         except: [:created_at , :updated_at])
     end
     
     def destroy
