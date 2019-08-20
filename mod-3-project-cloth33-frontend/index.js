@@ -1,5 +1,5 @@
 const hostURL = 'http://localhost:3000/'
-const defaultElementStyle = 'block'
+const defaultElementStyle = 'flex'
 const itemForm = document.getElementById('item-form')
 // DOMContentLoaded
 
@@ -7,11 +7,13 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     const loginForm = document.getElementById('login-form')
     loginForm.addEventListener('submit' , (e) =>{
         e.preventDefault();
+        loginUser(loginForm.username.value);
         hideElement(loginForm , false)
-        loadClosetManager()
-        addNewItem()
     })
+
+
 })
+
 let userId = 1
 function addNewItem() {
     itemForm.addEventListener('submit', (event) => {
@@ -34,8 +36,6 @@ function addNewItem() {
         .then(console.log)
     })
 }
-// console.log(itemForm)
-// DOMContentLoaded End
 
 function hideElement(htmlElement , makeVisible){
     if(makeVisible)
@@ -61,19 +61,20 @@ function outfitView(){
 
 }
 
-function loginUser(username){
-    fetch(hostURL + '/users', {
+function loginUser(name){
+    fetch(hostURL + 'users', {
         method: 'POST' ,
         headers:{
             'Content-Type' : 'application/json' , 
             'Accept' : 'application/json'
         } , 
         body: JSON.stringify({
-            'username' : username
+            user: { username : name }
         })
     }).then(resp =>{
         return resp.json();
     }).then(json =>{
         console.log(json)
+        
     })
 }
