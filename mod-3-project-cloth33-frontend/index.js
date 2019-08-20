@@ -36,13 +36,6 @@ function loginUser(name){
 }
 
 // load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
-// const fetchUserItems = (userId) => {
-//     fetch(`${hostURL}users/${userId}`)
-//         .then(resp => resp.json())
-//         .then(console.log)
-        // renderNewItem()
-// }
-
 const renderNewItem = (items) => {
     console.log(items)
     // let itemDiv = document.createElement('div')

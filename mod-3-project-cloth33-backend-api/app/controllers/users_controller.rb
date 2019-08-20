@@ -22,6 +22,14 @@ class UsersController < ApplicationController
             new_item.name = "#{Faker::Company.name} #{Item.clothing_types.shuffle[0]}"
             new_item.save
         end
+<<<<<<< HEAD
+        render json: user, include: [:items]
+    end 
+
+    def show 
+        user = User.find(params[:id])
+        render json: user, include: [:items]
+=======
 
         6.times do
             outfit = Outfit.new(user_id: user.id)
@@ -55,6 +63,7 @@ class UsersController < ApplicationController
         },
         except: [:created_at , :updated_at])
 
+>>>>>>> f5166a4d99a8b58a9df926449b7c4d02fde93e6c
     end 
 
     def destroy
