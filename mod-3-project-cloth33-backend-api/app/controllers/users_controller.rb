@@ -15,11 +15,11 @@ class UsersController < ApplicationController
             new_item.name = "#{Faker::Company.name} #{Item.clothing_types.shuffle[0]}"
             new_item.save
         end
-        render json: user
+        render json: user, include: [:items]
     end 
 
     def show 
-        user = User.find_by(username: params[:username])
+        user = User.find(params[:id])
         render json: user, include: [:items]
     end 
 

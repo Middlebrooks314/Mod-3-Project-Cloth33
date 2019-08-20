@@ -2,7 +2,7 @@ const hostURL = 'http://localhost:3000/'
 const defaultElementStyle = 'flex'
 const itemForm = document.getElementById('item-form')
 // DOMContentLoaded
-let userId = 1
+// let userId = 1
 
 
 document.addEventListener('DOMContentLoaded' , ()=>{
@@ -27,27 +27,28 @@ function loginUser(name){
         })
     }).then(resp =>{
         return resp.json();
-    }).then(json =>{
-        console.log(json)
-        userId = json['id']
+    }).then(user=>{
+        console.log(user)
+        let userId = user['id']
         console.log(userId)
-        fetchUserItems(userId)
+        renderNewItem(user.items)
     })
 }
 
 // load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
-const fetchUserItems = (userId) => {
-    fetch(`${hostURL}users/${userId}`)
-        .then(resp => resp.json())
-        .then(console.log)
+// const fetchUserItems = (userId) => {
+//     fetch(`${hostURL}users/${userId}`)
+//         .then(resp => resp.json())
+//         .then(console.log)
         // renderNewItem()
-}
+// }
 
-const renderNewItem = () => {
+const renderNewItem = (items) => {
+    console.log(items)
     // let itemDiv = document.createElement('div')
     // let itemNameH3 = document.createElement('H3')
-    // let itemImage = document.createdElement('img')
-    //     itemImage.src = 
+    // let itemImage = document.createElement('img')
+        // itemImage.src = 
 
 }
 
