@@ -17,7 +17,6 @@ class OutfitsController < ApplicationController
         end
         
         outfit.save
-
         render json: outfit, include: [:items]
     end 
     

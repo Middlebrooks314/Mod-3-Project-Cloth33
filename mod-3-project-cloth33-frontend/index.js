@@ -178,18 +178,6 @@ function hideElement(htmlElement , makeVisible){
 
 
 
-
-//load the outfit-creation screen to USE EXISTING CLOTHES
-function loadOutfitCreator(){
-
-}
-
-// view outfits
-function outfitView(){
-
-}
-
-
 // clears out the main-page-content div
 function unrenderMPC(){
     while(mainPageContent.firstChild){
@@ -199,10 +187,10 @@ function unrenderMPC(){
 
 function createOutfitViewer(){
     let viewPanel = document.createElement('div')
-    viewPanel.className = 'card'
+    //viewPanel.className = 'card'
     mainPageContent.appendChild(viewPanel)
 
-    let userId = 1  // change this to the user_id of the logged-in user
+    //let userId = 1  // change this to the user_id of the logged-in user
 
 
     fetch(`http://localhost:3000/users/${userId}`)
@@ -212,6 +200,7 @@ function createOutfitViewer(){
         // this loop will get the individual outfit from the object
         for(let i = 0; i < json['outfits'].length; i++){
             let outfitElements = json['outfits'][i]['items']
+            let outfitId = json['outfits'][i]['id']
             // console.log(outfitElements)
 
 
@@ -238,6 +227,25 @@ function createOutfitViewer(){
             let deleteButton = document.createElement('button')
             deleteButton.innerHTML = 'Delete!'
             deleteButton.className = 'col text-center btn btn-primary'
+            deleteButton.addEventListener('click' , ()=>{
+                //console.log('wee')
+                console.log(json)
+                fetch(`${hostURL}outfits/${outfitId}`, {
+                        method: "DELETE"
+                    }).then( ()=>{
+                        holder.parentElement.removeChild(holder)
+                    })
+
+            })
+
+            console.log(json['outfits'][i]['items'])
+            if(json['outfits'][i]['items'].length == 0)
+                fetch(hostURL + `outfits/${outfitId}` , {
+                    method: 'DELETE'
+                }).then(console.log('Outfit Deleted'))
+                .then(()=>{
+                    mainPageContent.removeChild(holder)
+                })
 
             let titleDiv = document.createElement('div')
             titleDiv.className = 'row mb-3 mt-1 mx-5'
@@ -270,7 +278,7 @@ function createClothesViewer(){
 
 
 
-function createOutfitCreator(myUserId=1){
+function createOutfitCreator(){
 
     // create the clothing-creator div
     let outfitDiv = document.createElement('div')
@@ -285,13 +293,13 @@ function createOutfitCreator(myUserId=1){
 
     let currentOutfit = []
 
-    fetch(`${hostURL}users/${myUserId}`)
+    fetch(`${hostURL}users/${userId}`)
     .then(resp =>{
         return resp.json();
     }).then(json =>{
         // console.log(json)
         //console.log(json['items'][0]['img_url'])
-        userId = myUserId
+        //userId = myUserId
         json.items.forEach(item =>{
             let itemDiv = document.createElement('div')
             itemDiv.id = item['id']
@@ -345,7 +353,7 @@ function createOutfitCreator(myUserId=1){
         outfitDiv.appendChild(saveButton)
         saveButton.addEventListener('click' , ()=>{
             console.dir(currentOutfit)
-            console.log(myUserId)
+            //console.log(myUserId)
             fetch(hostURL + 'outfits' , {
                 method: 'POST' , 
                 headers: {
@@ -353,7 +361,7 @@ function createOutfitCreator(myUserId=1){
                     'Accept' : 'application/json'
                 } ,
                 body: JSON.stringify({
-                    'user_id' : user_id ,
+                    'user_id' : userId ,
                     'items' : currentOutfit
                 })
             }).then(resp =>{
