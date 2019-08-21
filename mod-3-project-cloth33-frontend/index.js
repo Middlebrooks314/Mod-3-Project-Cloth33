@@ -137,10 +137,15 @@ const createItemElements = (item) => {
 
 }
 
-
+itemForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    addNewItem()
+    itemForm.img.value = ''
+    itemForm.name.value = ''
+    itemForm.category.value = ''
+    
+})
 const addNewItem = () => {
-    itemForm.addEventListener('submit', (event) => {
-        event.preventDefault()
         let formData = {
             name: itemForm.name.value,
             category: itemForm.category.value,
@@ -160,7 +165,6 @@ const addNewItem = () => {
             createItemElements(item)
             // console.log(item)
         })
-    })
 }
 
 function hideElement(htmlElement , makeVisible){

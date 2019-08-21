@@ -5,7 +5,7 @@ class Item < ApplicationRecord
   validates_associated :user
 
   def self.categories
-    ['top' , 'bottom' , 'accessory'  , 'shoes']
+    ['top' , 'bottom' , 'accessory'  , 'shoes', 'dress']
   end
 
   def self.clothing_types

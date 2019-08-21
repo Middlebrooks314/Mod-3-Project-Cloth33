@@ -34,6 +34,10 @@ class UsersController < ApplicationController
         user = User.new(user_params)
             if user.save 
                 render json: user.to_json(except: [:created_at , :updated_at])
+
+            elsif user.username == ''
+                render json: {error: 'Please Enter a Username'}
+
             else
                 render json: {error: 'Username already exists, please choose another'}
             end 
