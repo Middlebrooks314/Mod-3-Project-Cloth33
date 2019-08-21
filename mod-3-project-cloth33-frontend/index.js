@@ -8,14 +8,18 @@ let userId = 1
 const loginForm = document.getElementById('login-form')
 const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
+const newClothingForm = document.getElementById('new-item')
 
 
 document.addEventListener('DOMContentLoaded' , ()=>{
 
+    hideElement(newClothingForm , false)
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
         createUser(newUserForm.username.value);
-        hideElement(newUserForm, false)
+        unrenderMPC()
+        //hideElement(newUserForm, false)
+        //hideElement(newClothingForm , true)
         
         // get the clothing screen to render here with a new fetch request
     })
@@ -32,6 +36,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             .then(resp => resp.json())
             .then(userInfo => {
                 unrenderMPC();
+                mainPageContent.appendChild(newClothingForm)
                 renderNewItems(userInfo.items)
                 // console.log(userInfo.items)
         })
@@ -40,6 +45,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
+        mainPageContent.appendChild()
         createClothesViewer(1);
         console.log('Cloth Viewer')
 
@@ -224,6 +230,7 @@ function createOutfitViewer(){
 // this function will only be called when the user is logged in, due to the button-action
 function createClothesViewer(myUserId){
     // this renders clothes
+    mainPageContent.appendChild(newClothingForm)
     fetch(`${hostURL}users/${myUserId}`)
     .then(resp =>{
         return resp.json();
@@ -322,7 +329,7 @@ function createOutfitCreator(myUserId=1){
                     'Accept' : 'application/json'
                 } ,
                 body: JSON.stringify({
-                    'user_id' : 1 ,
+                    'user_id' : user_id ,
                     'items' : currentOutfit
                 })
             }).then(resp =>{
