@@ -349,7 +349,7 @@ function createOutfitCreator(myUserId=1){
                     'Accept' : 'application/json'
                 } ,
                 body: JSON.stringify({
-                    'user_id' : user_id ,
+                    'user_id' : userId ,
                     'items' : currentOutfit
                 })
             }).then(resp =>{
