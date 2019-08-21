@@ -8,13 +8,15 @@ let userId = 1
 const loginForm = document.getElementById('login-form')
 const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
+const createButton = document.getElementById('create-button')
 
 
     document.addEventListener('DOMContentLoaded' , ()=>{
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
-        createUser(newUserForm.username.value);
-        hideElement(newUserForm, false)
+        createUser(newUserForm.username.value, newUserForm);
+
+        
         
         // get the clothing screen to render here with a new fetch request
     })
@@ -59,7 +61,7 @@ const nameInput = document.getElementById('log-input')
 
 })
 
-const createUser = (name) =>{
+const createUser = (name, newUserForm) =>{
     fetch(hostURL + 'users', {
         method: 'POST' ,
         headers:{
@@ -70,13 +72,31 @@ const createUser = (name) =>{
             user: { username : name }
         })
     }).then(resp =>{
+        // console.log(resp)
         return resp.json();
+
     }).then(user=>{
-        userId = user['id']
-        // console.log(userId)
+        // this is being passed as a global variable
+        if (user.error) {
+            //  username already exists
+            console.error(user.error)
+            createUserErrorHandler(user.error)
+        }else {
+            // user successfully created 
+            userId = user['id']
+            console.log(user)
+            hideElement(newUserForm, false)
+        }
     })
 }
 
+const createUserErrorHandler = (error) => {
+    let errorSpan = document.createElement('span')
+    errorSpan.innerText = error
+
+    createButton.after(errorSpan)
+
+}
 
 
 
