@@ -10,7 +10,7 @@ const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
 
 
-document.addEventListener('DOMContentLoaded' , ()=>{
+    document.addEventListener('DOMContentLoaded' , ()=>{
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
         createUser(newUserForm.username.value);
@@ -20,9 +20,9 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     })
 
     loginForm.addEventListener('submit', (event) => {
-        event.preventDefault()
+    event.preventDefault()
         // loginUser(event.username.value)
-        console.log(nameInput.value)
+        // console.log(nameInput.value)
         loginUser(nameInput.value)
     })
 
@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             .then(resp => resp.json())
             .then(userInfo => {
                 renderNewItems(userInfo.items)
-                // console.log(userInfo.items)
+                console.log(userInfo.items)
+                
         })
     }
 
@@ -47,13 +48,13 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
         createOutfitViewer(1);
-        console.log('outfit viewer')
+        // console.log('outfit viewer')
     })
     document.getElementById('outfit-creator').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
         createOutfitCreator();
-        console.log('outfit creator')
+        // console.log('outfit creator')
     })
 
 })
@@ -71,10 +72,8 @@ const createUser = (name) =>{
     }).then(resp =>{
         return resp.json();
     }).then(user=>{
-        // console.log(user)
         userId = user['id']
-        console.log(userId)
-        // renderNewItems(user.items)
+        // console.log(userId)
     })
 }
 
@@ -130,7 +129,7 @@ const addNewItem = () => {
         .then(resp => resp.json())
         .then(item => {
             createItemElements(item)
-            console.log(item)
+            // console.log(item)
         })
     })
 }
@@ -180,7 +179,7 @@ function createOutfitViewer(){
         // this loop will get the individual outfit from the object
         for(let i = 0; i < json['outfits'].length; i++){
             let outfitElements = json['outfits'][i]['items']
-            console.log(outfitElements)
+            // console.log(outfitElements)
 
 
             // create the holder div for the outfit
@@ -229,7 +228,7 @@ function createClothesViewer(myUserId){
         //console.log(json)
         //console.log(json['items'][0]['img_url'])
         userId = myUserId
-        console.log(userId)
+        // console.log(userId)
         renderNewItems(json.items)
     })
 
@@ -256,7 +255,7 @@ function createOutfitCreator(myUserId=1){
     .then(resp =>{
         return resp.json();
     }).then(json =>{
-        console.log(json)
+        // console.log(json)
         //console.log(json['items'][0]['img_url'])
         userId = myUserId
         //console.log(userId)
