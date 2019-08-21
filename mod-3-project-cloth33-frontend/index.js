@@ -259,24 +259,17 @@ function createOutfitCreator(myUserId=1){
         console.log(json)
         //console.log(json['items'][0]['img_url'])
         userId = myUserId
-        //console.log(userId)
-
-        // create a grid here to fit the clothing cards
-        //renderNewItems(json.items)
         json.items.forEach(item =>{
-            //console.log(item)
-
             let itemDiv = document.createElement('div')
             itemDiv.id = item['id']
-            itemDiv.className = 'card w-25'
+            itemDiv.className = 'card m-2 w-25'
             let itemNameH3 = document.createElement('h4')
                 itemNameH3.innerText = item.name
             let itemImage = document.createElement('img')
-                itemImage.className = 'item-avatar'
+                itemImage.className = 'item-avatar w-75'
                 itemImage.src = item.img_url
         
                 itemDiv.append(itemNameH3, itemImage)
-                //closetDiv.append(itemDiv)
                 clothingDiv.append(itemDiv)
 
                 // event listener to add an item to the outfit
@@ -285,12 +278,9 @@ function createOutfitCreator(myUserId=1){
                         clothingDiv.prepend(itemDiv)
                         
                         for(let i = 0; i < currentOutfit.length; i++){
-                            //console.log(item)
                             if(item == currentOutfit[i]){
                                 currentOutfit = currentOutfit.splice(i , 1)
-                                //console.log('Whop')
                             }
-                            
                         }
                         console.log(currentOutfit)
                     }
@@ -309,21 +299,21 @@ function createOutfitCreator(myUserId=1){
         saveButton.innerHTML = 'SAVE'
         outfitDiv.appendChild(saveButton)
         saveButton.addEventListener('click' , ()=>{
-            console.log(currentOutfit)
+            console.dir(currentOutfit)
+            console.log(myUserId)
             fetch(hostURL + 'outfits' , {
                 method: 'POST' , 
                 headers: {
-                    'Content-Type' : 'application/json' ,
+                    'Content-Type' : 'application/json' , 
                     'Accept' : 'application/json'
                 } ,
                 body: JSON.stringify({
-                    user_id: 1 ,    // change this to the actual one later
-                    items: currentOutfit
+                    'user_id' : 1 ,
+                    'items' : currentOutfit
                 })
             }).then(resp =>{
+                console.log(resp)
                 return resp.json();
-            }).then(json =>{
-                console.log(json)
             })
         })
     })
