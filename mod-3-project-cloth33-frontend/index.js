@@ -198,7 +198,7 @@ function createOutfitViewer(){
     viewPanel.className = 'card'
     mainPageContent.appendChild(viewPanel)
 
-    let userId = 1  // change this to the user_id of the logged-in user
+    //let userId = 1  // change this to the user_id of the logged-in user
 
 
     fetch(`http://localhost:3000/users/${userId}`)
@@ -266,7 +266,7 @@ function createClothesViewer(){
 
 
 
-function createOutfitCreator(myUserId=1){
+function createOutfitCreator(){
 
     // create the clothing-creator div
     let outfitDiv = document.createElement('div')
@@ -281,13 +281,13 @@ function createOutfitCreator(myUserId=1){
 
     let currentOutfit = []
 
-    fetch(`${hostURL}users/${myUserId}`)
+    fetch(`${hostURL}users/${userId}`)
     .then(resp =>{
         return resp.json();
     }).then(json =>{
         // console.log(json)
         //console.log(json['items'][0]['img_url'])
-        userId = myUserId
+        //userId = myUserId
         json.items.forEach(item =>{
             let itemDiv = document.createElement('div')
             itemDiv.id = item['id']
@@ -341,7 +341,7 @@ function createOutfitCreator(myUserId=1){
         outfitDiv.appendChild(saveButton)
         saveButton.addEventListener('click' , ()=>{
             console.dir(currentOutfit)
-            console.log(myUserId)
+            //console.log(myUserId)
             fetch(hostURL + 'outfits' , {
                 method: 'POST' , 
                 headers: {
