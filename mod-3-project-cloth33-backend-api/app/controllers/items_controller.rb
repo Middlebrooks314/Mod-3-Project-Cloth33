@@ -22,7 +22,8 @@ class ItemsController < ApplicationController
     end
     
     def destroy
-        Item.find_by(id: params[:id]).destroy
+        p params 
+        Item.find_by(id: params[:id]).destroy!
         render json: "Item Deleted"
     end
 

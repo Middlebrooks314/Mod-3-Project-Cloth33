@@ -5,10 +5,12 @@ const itemForm = document.getElementById('item-form')
 const mainPageContent = document.getElementById('main-page-content')
 // DOMContentLoaded
 let userId = 1
+const loginForm = document.getElementById('login-form')
+const newUserForm = document.getElementById('new-user-form')
+const nameInput = document.getElementById('log-input')
 
 
 document.addEventListener('DOMContentLoaded' , ()=>{
-    const newUserForm = document.getElementById('new-user-form')
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
         createUser(newUserForm.username.value);
@@ -16,6 +18,23 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         
         // get the clothing screen to render here with a new fetch request
     })
+
+loginForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    // loginUser(event.username.value)
+    console.log(nameInput.value)
+    loginUser(nameInput.value)
+})
+
+const loginUser = (username) => {
+    fetch(`${hostURL}login/${username}`)
+    .then(resp => resp.json())
+    .then(userInfo => {
+        renderNewItems(userInfo.items)
+        // console.log(userInfo.items)
+    })
+}
+    
 
 
     document.getElementById('clothes').addEventListener('click' , ()=>{
@@ -51,20 +70,19 @@ const createUser = (name) =>{
     }).then(resp =>{
         return resp.json();
     }).then(user=>{
-        console.log(user)
+        // console.log(user)
         userId = user['id']
         console.log(userId)
-        renderNewItems(user.items)
+        // renderNewItems(user.items)
     })
 }
 
 
 
+
 // load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
 const renderNewItems = (items) => {
-    // console.log(items)
     for(const item of items){
-
         createItemElements(item)    
     }    
 }
@@ -153,6 +171,7 @@ function createOutfitViewer(){
 
     let userId = 1  // change this to the user_id of the logged-in user
 
+
     fetch(`http://localhost:3000/users/${userId}`)
     .then(resp =>{
         return resp.json();
@@ -161,6 +180,7 @@ function createOutfitViewer(){
         for(let i = 0; i < json['outfits'].length; i++){
             let outfitElements = json['outfits'][i]['items']
             console.log(outfitElements)
+
 
             // create the holder div for the outfit
             let holder = document.createElement('div')
@@ -193,7 +213,7 @@ function createOutfitViewer(){
             holder.appendChild(titleDiv)
         }
     })
-}
+
 
 
 // input the user-id for it to be added into the link
@@ -268,4 +288,5 @@ function createOutfitCreator(myUserId=1){
 
     //unrenderMPC();
     //mainPageContent.appendChild(clothingDiv)
+}
 }

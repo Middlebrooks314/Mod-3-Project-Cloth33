@@ -1,6 +1,6 @@
 class Item < ApplicationRecord
   belongs_to :user
-  has_many :outfit_items
+  has_many :outfit_items, dependent: :destroy
   has_many :outfits , through: :outfit_items
 
   def self.categories
