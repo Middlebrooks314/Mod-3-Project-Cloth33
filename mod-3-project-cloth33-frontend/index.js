@@ -11,7 +11,7 @@ const nameInput = document.getElementById('log-input')
 
 
 document.addEventListener('DOMContentLoaded' , ()=>{
-    
+
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
         createUser(newUserForm.username.value);
@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             fetch(`${hostURL}login/${username}`)
             .then(resp => resp.json())
             .then(userInfo => {
+                unrenderMPC();
                 renderNewItems(userInfo.items)
                 // console.log(userInfo.items)
         })
@@ -266,15 +267,22 @@ function createOutfitCreator(myUserId=1){
             itemDiv.className = 'card m-2 w-25'
             let itemNameH3 = document.createElement('h4')
                 itemNameH3.innerText = item.name
+                itemNameH3.className = 'text-center'
+
+            let imgDiv = document.createElement('div')
             let itemImage = document.createElement('img')
-                itemImage.className = 'item-avatar w-75'
+                itemImage.className = 'item-avatar w-75 text-center'
                 itemImage.src = item.img_url
+
+                imgDiv.appendChild(itemImage)
         
+
+            // creates the add / removal button
             let myBtn = document.createElement('button')
             myBtn.innerHTML = 'Add To Outfit'
             myBtn.className = 'btn btn-primary'
 
-                itemDiv.append(itemNameH3, itemImage , myBtn)
+                itemDiv.append(itemNameH3, imgDiv , myBtn)
                 clothingDiv.append(itemDiv)
 
                 // event listener to add an item to the outfit
