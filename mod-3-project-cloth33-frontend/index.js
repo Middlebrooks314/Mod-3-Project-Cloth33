@@ -19,28 +19,27 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         // get the clothing screen to render here with a new fetch request
     })
 
-loginForm.addEventListener('submit', (event) => {
-    event.preventDefault()
-    // loginUser(event.username.value)
-    console.log(nameInput.value)
-    loginUser(nameInput.value)
-})
-
-const loginUser = (username) => {
-    fetch(`${hostURL}login/${username}`)
-    .then(resp => resp.json())
-    .then(userInfo => {
-        renderNewItems(userInfo.items)
-        // console.log(userInfo.items)
+    loginForm.addEventListener('submit', (event) => {
+        event.preventDefault()
+        // loginUser(event.username.value)
+        console.log(nameInput.value)
+        loginUser(nameInput.value)
     })
-}
-    
 
+    const loginUser = (username) => {
+            fetch(`${hostURL}login/${username}`)
+            .then(resp => resp.json())
+            .then(userInfo => {
+                renderNewItems(userInfo.items)
+                // console.log(userInfo.items)
+        })
+    }
 
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
         createClothesViewer(1);
+        console.log('Cloth Viewer')
 
     })
 
@@ -48,11 +47,13 @@ const loginUser = (username) => {
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
         createOutfitViewer(1);
+        console.log('outfit viewer')
     })
     document.getElementById('outfit-creator').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
         createOutfitCreator();
+        console.log('outfit creator')
     })
 
 })
@@ -213,6 +214,7 @@ function createOutfitViewer(){
             holder.appendChild(titleDiv)
         }
     })
+}
 
 
 
@@ -245,48 +247,88 @@ function createOutfitCreator(myUserId=1){
     // create and populate the clothing div
     let clothingDiv = document.createElement('div')
     clothingDiv.id = 'clothing-div'
+    clothingDiv.className = 'bg-info p-2'
     mainPageContent.appendChild(clothingDiv)
+
+    let currentOutfit = []
 
     fetch(`${hostURL}users/${myUserId}`)
     .then(resp =>{
         return resp.json();
     }).then(json =>{
-        //console.log(json)
+        console.log(json)
         //console.log(json['items'][0]['img_url'])
         userId = myUserId
-        console.log(userId)
+        //console.log(userId)
+
+        // create a grid here to fit the clothing cards
         //renderNewItems(json.items)
         json.items.forEach(item =>{
             //console.log(item)
 
             let itemDiv = document.createElement('div')
+            itemDiv.id = item['id']
+            itemDiv.className = 'card w-25'
             let itemNameH3 = document.createElement('h4')
                 itemNameH3.innerText = item.name
             let itemImage = document.createElement('img')
                 itemImage.className = 'item-avatar'
                 itemImage.src = item.img_url
-            let deleteButton = document.createElement('button')
-                deleteButton.innerHTML = 'X'
         
-            deleteButton.addEventListener("click", event =>{
-                fetch(`${hostURL}items/${item.id}`, {
-                    method: "DELETE"
-                }).then(event.target.parentNode.remove())
-            })
-                itemDiv.append(itemNameH3, itemImage, deleteButton)
+                itemDiv.append(itemNameH3, itemImage)
                 //closetDiv.append(itemDiv)
                 clothingDiv.append(itemDiv)
 
                 // event listener to add an item to the outfit
                 itemDiv.addEventListener('click' , ()=>{
-
+                    if(itemDiv.parentNode.id == outfitDiv.id){
+                        clothingDiv.prepend(itemDiv)
+                        
+                        for(let i = 0; i < currentOutfit.length; i++){
+                            //console.log(item)
+                            if(item == currentOutfit[i]){
+                                currentOutfit = currentOutfit.splice(i , 1)
+                                //console.log('Whop')
+                            }
+                            
+                        }
+                        console.log(currentOutfit)
+                    }
+                    else
+                        if(outfitDiv.childNodes.length < 4){
+                            outfitDiv.append(itemDiv)
+                            currentOutfit.push(item)
+                        }
                 })
         
+        })
+
+        // add save-features to the outfit
+        let saveButton = document.createElement('button')
+        saveButton.className = 'btn btn-danger'
+        saveButton.innerHTML = 'SAVE'
+        outfitDiv.appendChild(saveButton)
+        saveButton.addEventListener('click' , ()=>{
+            console.log(currentOutfit)
+            fetch(hostURL + 'outfits' , {
+                method: 'POST' , 
+                headers: {
+                    'Content-Type' : 'application/json' ,
+                    'Accept' : 'application/json'
+                } ,
+                body: JSON.stringify({
+                    user_id: 1 ,    // change this to the actual one later
+                    items: currentOutfit
+                })
+            }).then(resp =>{
+                return resp.json();
+            }).then(json =>{
+                console.log(json)
+            })
         })
     })
 
 
     //unrenderMPC();
     //mainPageContent.appendChild(clothingDiv)
-}
 }
