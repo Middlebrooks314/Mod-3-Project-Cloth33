@@ -15,7 +15,7 @@ class ItemsController < ApplicationController
 
     def create 
         item = Item.new(item_params)
-
+        
         if item.save 
             render json: item.to_json(include: {user: {except: [:created_at , :updated_at]} } ,except: [:created_at , :updated_at])
         else
