@@ -35,7 +35,7 @@ class UsersController < ApplicationController
             if user.save 
                 render json: user.to_json(except: [:created_at , :updated_at])
             else
-                render json: 'Username already exists, please choose another'
+                render json: {error: 'Username already exists, please choose another'}
             end 
         end 
 
