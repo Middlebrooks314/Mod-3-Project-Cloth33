@@ -1,5 +1,7 @@
 const hostURL = 'http://localhost:3000/'
 const defaultElementStyle = 'flex'
+
+const newClothingDiv = document.getElementById('new-item')
 const itemForm = document.getElementById('item-form')
 //const closetDiv = document.getElementById('item-container')
 const mainPageContent = document.getElementById('main-page-content')
@@ -8,26 +10,26 @@ let userId = 1
 const loginForm = document.getElementById('login-form')
 const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
-const newClothingForm = document.getElementById('new-item')
+const createButton = document.getElementById('create-button')
+
+
 
 
 document.addEventListener('DOMContentLoaded' , ()=>{
-
-    hideElement(newClothingForm , false)
+    hideElement(newClothingDiv , false)
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
-        createUser(newUserForm.username.value);
-        unrenderMPC()
-        hideElement(newUserForm, false)
-        hideElement(newClothingForm , true)
+        createUser(newUserForm.username.value, newUserForm);
+
+        
         
         // get the clothing screen to render here with a new fetch request
     })
 
     loginForm.addEventListener('submit', (event) => {
-        event.preventDefault()
+    event.preventDefault()
         // loginUser(event.username.value)
-        console.log(nameInput.value)
+        // console.log(nameInput.value)
         loginUser(nameInput.value)
     })
 
@@ -36,10 +38,11 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             .then(resp => resp.json())
             .then(userInfo => {
                 unrenderMPC();
-                mainPageContent.appendChild(newClothingForm)
-                hideElement(newClothingForm , true)
+                mainPageContent.appendChild(newClothingDiv)
+                hideElement(newClothingDiv , true)
                 renderNewItems(userInfo.items)
-                // console.log(userInfo.items)
+                console.log(userInfo.items)
+                
         })
     }
 
@@ -56,18 +59,18 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
         createOutfitViewer();
-        console.log('outfit viewer')
+        //console.log('outfit viewer')
     })
     document.getElementById('outfit-creator').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
         createOutfitCreator();
-        console.log('outfit creator')
+        // console.log('outfit creator')
     })
 
 })
 
-const createUser = (name) =>{
+const createUser = (name, newUserForm) =>{
     fetch(hostURL + 'users', {
         method: 'POST' ,
         headers:{
@@ -78,15 +81,31 @@ const createUser = (name) =>{
             user: { username : name }
         })
     }).then(resp =>{
+        // console.log(resp)
         return resp.json();
+
     }).then(user=>{
-        // console.log(user)
-        userId = user['id']
-        console.log(userId)
-        // renderNewItems(user.items)
+        // this is being passed as a global variable
+        if (user.error) {
+            //  username already exists
+            console.error(user.error)
+            createUserErrorHandler(user.error)
+        }else {
+            // user successfully created 
+            userId = user['id']
+            console.log(user)
+            hideElement(newUserForm, false)
+        }
     })
 }
 
+const createUserErrorHandler = (error) => {
+    let errorSpan = document.createElement('span')
+    errorSpan.innerText = error
+
+    createButton.after(errorSpan)
+
+}
 
 
 
@@ -139,7 +158,7 @@ const addNewItem = () => {
         .then(resp => resp.json())
         .then(item => {
             createItemElements(item)
-            console.log(item)
+            // console.log(item)
         })
     })
 }
@@ -189,7 +208,7 @@ function createOutfitViewer(){
         // this loop will get the individual outfit from the object
         for(let i = 0; i < json['outfits'].length; i++){
             let outfitElements = json['outfits'][i]['items']
-            console.log(outfitElements)
+            // console.log(outfitElements)
 
 
             // create the holder div for the outfit
@@ -231,7 +250,7 @@ function createOutfitViewer(){
 // this function will only be called when the user is logged in, due to the button-action
 function createClothesViewer(){
     // this renders clothes
-    mainPageContent.appendChild(newClothingForm)
+    mainPageContent.appendChild(itemForm)
     fetch(`${hostURL}users/${userId}`)
     .then(resp =>{
         return resp.json();
@@ -266,7 +285,7 @@ function createOutfitCreator(myUserId=1){
     .then(resp =>{
         return resp.json();
     }).then(json =>{
-        console.log(json)
+        // console.log(json)
         //console.log(json['items'][0]['img_url'])
         userId = myUserId
         json.items.forEach(item =>{
