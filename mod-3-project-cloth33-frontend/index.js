@@ -195,7 +195,7 @@ function unrenderMPC(){
 
 function createOutfitViewer(){
     let viewPanel = document.createElement('div')
-    viewPanel.className = 'card'
+    //viewPanel.className = 'card'
     mainPageContent.appendChild(viewPanel)
 
     //let userId = 1  // change this to the user_id of the logged-in user
@@ -208,6 +208,7 @@ function createOutfitViewer(){
         // this loop will get the individual outfit from the object
         for(let i = 0; i < json['outfits'].length; i++){
             let outfitElements = json['outfits'][i]['items']
+            let outfitId = json['outfits'][i]['id']
             // console.log(outfitElements)
 
 
@@ -234,6 +235,14 @@ function createOutfitViewer(){
             let deleteButton = document.createElement('button')
             deleteButton.innerHTML = 'Delete!'
             deleteButton.className = 'col text-center btn btn-primary'
+            deleteButton.addEventListener('click' , ()=>{
+                //console.log('wee')
+                console.log(json)
+                fetch(`${hostURL}outfits/${outfitId}`, {
+                        method: "DELETE"
+                    }).then( holder.parentElement.removeChild(holder))
+
+            })
 
             let titleDiv = document.createElement('div')
             titleDiv.className = 'row mb-3 mt-1 mx-5'
