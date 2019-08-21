@@ -9,7 +9,15 @@ class OutfitsController < ApplicationController
 
     def create
         # NOTE: the 'items' param must be in the form of an array when passed in on the front-end
-        outfit = Outfit.create(user_id: params[:user_id], items: params[:items])
+        outfit = Outfit.create(user_id: params[:user_id])
+
+        params[:items].each do |item|
+            current_item = Item.where(id: item[:id])
+            outfit.items << current_item
+        end
+        
+        outfit.save
+
         render json: outfit, include: [:items]
     end 
     

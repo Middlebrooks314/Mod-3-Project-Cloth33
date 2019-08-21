@@ -1,5 +1,7 @@
 const hostURL = 'http://localhost:3000/'
 const defaultElementStyle = 'flex'
+
+const newClothingDiv = document.getElementById('new-item')
 const itemForm = document.getElementById('item-form')
 //const closetDiv = document.getElementById('item-container')
 const mainPageContent = document.getElementById('main-page-content')
@@ -11,7 +13,10 @@ const nameInput = document.getElementById('log-input')
 const createButton = document.getElementById('create-button')
 
 
-    document.addEventListener('DOMContentLoaded' , ()=>{
+
+
+document.addEventListener('DOMContentLoaded' , ()=>{
+    hideElement(newClothingDiv , false)
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
         createUser(newUserForm.username.value, newUserForm);
@@ -32,6 +37,9 @@ const createButton = document.getElementById('create-button')
             fetch(`${hostURL}login/${username}`)
             .then(resp => resp.json())
             .then(userInfo => {
+                unrenderMPC();
+                mainPageContent.appendChild(newClothingDiv)
+                hideElement(newClothingDiv , true)
                 renderNewItems(userInfo.items)
                 console.log(userInfo.items)
                 
@@ -41,7 +49,8 @@ const createButton = document.getElementById('create-button')
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
-        createClothesViewer(1);
+        //mainPageContent.appendChild(newClothingForm)
+        createClothesViewer();
         console.log('Cloth Viewer')
 
     })
@@ -49,8 +58,8 @@ const createButton = document.getElementById('create-button')
     document.getElementById('outfits').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
-        createOutfitViewer(1);
-        // console.log('outfit viewer')
+        createOutfitViewer();
+        //console.log('outfit viewer')
     })
     document.getElementById('outfit-creator').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
@@ -239,16 +248,17 @@ function createOutfitViewer(){
 
 // input the user-id for it to be added into the link
 // this function will only be called when the user is logged in, due to the button-action
-function createClothesViewer(myUserId){
+function createClothesViewer(){
     // this renders clothes
-    fetch(`${hostURL}users/${myUserId}`)
+    mainPageContent.appendChild(itemForm)
+    fetch(`${hostURL}users/${userId}`)
     .then(resp =>{
         return resp.json();
     }).then(json =>{
         //console.log(json)
         //console.log(json['items'][0]['img_url'])
-        userId = myUserId
-        // console.log(userId)
+        //userId = myUserId
+        console.log(userId)
         renderNewItems(json.items)
     })
 
@@ -266,7 +276,7 @@ function createOutfitCreator(myUserId=1){
     // create and populate the clothing div
     let clothingDiv = document.createElement('div')
     clothingDiv.id = 'clothing-div'
-    clothingDiv.className = 'bg-info p-2'
+    clothingDiv.className = 'bg-purple p-2'
     mainPageContent.appendChild(clothingDiv)
 
     let currentOutfit = []
@@ -278,43 +288,45 @@ function createOutfitCreator(myUserId=1){
         // console.log(json)
         //console.log(json['items'][0]['img_url'])
         userId = myUserId
-        //console.log(userId)
-
-        // create a grid here to fit the clothing cards
-        //renderNewItems(json.items)
         json.items.forEach(item =>{
-            //console.log(item)
-
             let itemDiv = document.createElement('div')
             itemDiv.id = item['id']
-            itemDiv.className = 'card w-25'
+            itemDiv.className = 'card m-2 w-25'
             let itemNameH3 = document.createElement('h4')
                 itemNameH3.innerText = item.name
+                itemNameH3.className = 'text-center'
+
+            let imgDiv = document.createElement('div')
             let itemImage = document.createElement('img')
-                itemImage.className = 'item-avatar'
+                itemImage.className = 'item-avatar w-75 text-center'
                 itemImage.src = item.img_url
+
+                imgDiv.appendChild(itemImage)
         
-                itemDiv.append(itemNameH3, itemImage)
-                //closetDiv.append(itemDiv)
+
+            // creates the add / removal button
+            let myBtn = document.createElement('button')
+            myBtn.innerHTML = 'Add To Outfit'
+            myBtn.className = 'btn btn-primary'
+
+                itemDiv.append(itemNameH3, imgDiv , myBtn)
                 clothingDiv.append(itemDiv)
 
                 // event listener to add an item to the outfit
-                itemDiv.addEventListener('click' , ()=>{
+                myBtn.addEventListener('click' , ()=>{
                     if(itemDiv.parentNode.id == outfitDiv.id){
                         clothingDiv.prepend(itemDiv)
-                        
+                        myBtn.innerHTML = 'Add To Outfit'
                         for(let i = 0; i < currentOutfit.length; i++){
-                            //console.log(item)
                             if(item == currentOutfit[i]){
                                 currentOutfit = currentOutfit.splice(i , 1)
-                                //console.log('Whop')
                             }
-                            
                         }
                         console.log(currentOutfit)
                     }
                     else
                         if(outfitDiv.childNodes.length < 4){
+                            myBtn.innerHTML = 'Remove'
                             outfitDiv.append(itemDiv)
                             currentOutfit.push(item)
                         }
@@ -328,21 +340,21 @@ function createOutfitCreator(myUserId=1){
         saveButton.innerHTML = 'SAVE'
         outfitDiv.appendChild(saveButton)
         saveButton.addEventListener('click' , ()=>{
-            console.log(currentOutfit)
+            console.dir(currentOutfit)
+            console.log(myUserId)
             fetch(hostURL + 'outfits' , {
                 method: 'POST' , 
                 headers: {
-                    'Content-Type' : 'application/json' ,
+                    'Content-Type' : 'application/json' , 
                     'Accept' : 'application/json'
                 } ,
                 body: JSON.stringify({
-                    user_id: 1 ,    // change this to the actual one later
-                    items: currentOutfit
+                    'user_id' : user_id ,
+                    'items' : currentOutfit
                 })
             }).then(resp =>{
+                console.log(resp)
                 return resp.json();
-            }).then(json =>{
-                console.log(json)
             })
         })
     })

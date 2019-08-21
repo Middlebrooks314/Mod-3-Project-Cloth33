@@ -1,3 +1,15 @@
 .bg-purple , .btn-purple {
     background: rebeccapurple;
 }
+
+.text-purple{
+    color: rebeccapurple;
+}
+
+.text-gw{
+    color: ghostwhite;
+}
+
+.bg-gw , .btn-gw{
+    background: ghostwhite;
+}
