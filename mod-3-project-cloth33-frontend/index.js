@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         event.preventDefault();
         createUser(newUserForm.username.value);
         unrenderMPC()
-        //hideElement(newUserForm, false)
-        //hideElement(newClothingForm , true)
+        hideElement(newUserForm, false)
+        hideElement(newClothingForm , true)
         
         // get the clothing screen to render here with a new fetch request
     })
@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             .then(userInfo => {
                 unrenderMPC();
                 mainPageContent.appendChild(newClothingForm)
+                hideElement(newClothingForm , true)
                 renderNewItems(userInfo.items)
                 // console.log(userInfo.items)
         })
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
-        mainPageContent.appendChild(newClothingForm)
+        //mainPageContent.appendChild(newClothingForm)
         createClothesViewer();
         console.log('Cloth Viewer')
 
