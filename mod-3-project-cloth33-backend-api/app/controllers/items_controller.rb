@@ -13,15 +13,13 @@ class ItemsController < ApplicationController
          except: [:created_at , :updated_at])
     end
 
-
     def create 
         item = Item.new(item_params)
 
         if item.save 
-        render json: item.to_json(include: {user: {except: [:created_at , :updated_at]} } ,
-         except: [:created_at , :updated_at])
+            render json: item.to_json(include: {user: {except: [:created_at , :updated_at]} } ,except: [:created_at , :updated_at])
         else
-            render json: {error: 'Your closet is at it's 33 item limit, please remove an item before adding'}
+            render json: {error: "Your closet is at it's 33 item limit, please remove an item before adding new ones"}
         end 
     end
     
