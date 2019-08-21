@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
-        mainPageContent.appendChild()
-        createClothesViewer(1);
+        mainPageContent.appendChild(newClothingForm)
+        createClothesViewer();
         console.log('Cloth Viewer')
 
     })
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     document.getElementById('outfits').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
-        createOutfitViewer(1);
+        createOutfitViewer();
         console.log('outfit viewer')
     })
     document.getElementById('outfit-creator').addEventListener('click' , ()=>{
@@ -228,16 +228,16 @@ function createOutfitViewer(){
 
 // input the user-id for it to be added into the link
 // this function will only be called when the user is logged in, due to the button-action
-function createClothesViewer(myUserId){
+function createClothesViewer(){
     // this renders clothes
     mainPageContent.appendChild(newClothingForm)
-    fetch(`${hostURL}users/${myUserId}`)
+    fetch(`${hostURL}users/${userId}`)
     .then(resp =>{
         return resp.json();
     }).then(json =>{
         //console.log(json)
         //console.log(json['items'][0]['img_url'])
-        userId = myUserId
+        //userId = myUserId
         console.log(userId)
         renderNewItems(json.items)
     })
