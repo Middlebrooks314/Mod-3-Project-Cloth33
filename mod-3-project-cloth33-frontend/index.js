@@ -174,18 +174,6 @@ function hideElement(htmlElement , makeVisible){
 
 
 
-
-//load the outfit-creation screen to USE EXISTING CLOTHES
-function loadOutfitCreator(){
-
-}
-
-// view outfits
-function outfitView(){
-
-}
-
-
 // clears out the main-page-content div
 function unrenderMPC(){
     while(mainPageContent.firstChild){
@@ -240,9 +228,20 @@ function createOutfitViewer(){
                 console.log(json)
                 fetch(`${hostURL}outfits/${outfitId}`, {
                         method: "DELETE"
-                    }).then( holder.parentElement.removeChild(holder))
+                    }).then( ()=>{
+                        holder.parentElement.removeChild(holder)
+                    })
 
             })
+
+            console.log(json['outfits'][i]['items'])
+            if(json['outfits'][i]['items'].length == 0)
+                fetch(hostURL + `outfits/${outfitId}` , {
+                    method: 'DELETE'
+                }).then(console.log('Outfit Deleted'))
+                .then(()=>{
+                    mainPageContent.removeChild(holder)
+                })
 
             let titleDiv = document.createElement('div')
             titleDiv.className = 'row mb-3 mt-1 mx-5'
