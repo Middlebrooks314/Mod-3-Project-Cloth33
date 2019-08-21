@@ -11,6 +11,7 @@ const nameInput = document.getElementById('log-input')
 
 
 document.addEventListener('DOMContentLoaded' , ()=>{
+    
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
         createUser(newUserForm.username.value);
@@ -247,7 +248,7 @@ function createOutfitCreator(myUserId=1){
     // create and populate the clothing div
     let clothingDiv = document.createElement('div')
     clothingDiv.id = 'clothing-div'
-    clothingDiv.className = 'bg-info p-2'
+    clothingDiv.className = 'bg-purple p-2'
     mainPageContent.appendChild(clothingDiv)
 
     let currentOutfit = []
@@ -269,14 +270,18 @@ function createOutfitCreator(myUserId=1){
                 itemImage.className = 'item-avatar w-75'
                 itemImage.src = item.img_url
         
-                itemDiv.append(itemNameH3, itemImage)
+            let myBtn = document.createElement('button')
+            myBtn.innerHTML = 'Add To Outfit'
+            myBtn.className = 'btn btn-primary'
+
+                itemDiv.append(itemNameH3, itemImage , myBtn)
                 clothingDiv.append(itemDiv)
 
                 // event listener to add an item to the outfit
-                itemDiv.addEventListener('click' , ()=>{
+                myBtn.addEventListener('click' , ()=>{
                     if(itemDiv.parentNode.id == outfitDiv.id){
                         clothingDiv.prepend(itemDiv)
-                        
+                        myBtn.innerHTML = 'Add To Outfit'
                         for(let i = 0; i < currentOutfit.length; i++){
                             if(item == currentOutfit[i]){
                                 currentOutfit = currentOutfit.splice(i , 1)
@@ -286,6 +291,7 @@ function createOutfitCreator(myUserId=1){
                     }
                     else
                         if(outfitDiv.childNodes.length < 4){
+                            myBtn.innerHTML = 'Remove'
                             outfitDiv.append(itemDiv)
                             currentOutfit.push(item)
                         }
