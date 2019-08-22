@@ -55,6 +55,31 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         })
     }
 
+// }).then(user=>{
+//     // this is being passed as a global variable
+//     if (user.error) {
+//         //  username already exists
+//         console.error(user.error)
+//         createUserErrorHandler(user.error)
+//     }else {
+//         // user successfully created 
+//         userId = user['id']
+//         console.log(user)
+//         hideElement(newUserForm, false)
+//     }
+// })
+// }
+
+
+    const loginUserHandler = (error) => {
+        
+    }
+
+
+
+
+
+
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
