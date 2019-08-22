@@ -176,6 +176,34 @@ const addNewItem = (parentNode=null) => {
         })
 }
 
+
+
+if (item.error) {
+    createItemHandler(item.error)
+}
+createItemElements(item)
+// }).then(user=>{
+//     // this is being passed as a global variable
+//     if (user.error) {
+//         //  username already exists
+//         console.error(user.error)
+//         createUserErrorHandler(user.error)
+//     }else {
+//         // user successfully created 
+//         userId = user['id']
+//         console.log(user)
+//         hideElement(newUserForm, false)
+//     }
+// })
+// }
+
+
+
+
+
+
+
+
 function hideElement(htmlElement , makeVisible){
     if(makeVisible)
         htmlElement.style.display = defaultElementStyle
