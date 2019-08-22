@@ -12,7 +12,6 @@ user_1 = User.create(username: "Molly")
 user_3 = User.create(username: "Mitch")
 
 
-
 # Tops
 
 item_1 = Item.create(name: "Basic Blue Shirt", category: "Top", img_url: 'https://m.media-amazon.com/images/I/71soGD-jw0L._SR500,500_.jpg', user_id: 1)
@@ -100,7 +99,11 @@ item_31 = Item.create(name: "Shirt Dress", category: "Dress", img_url: 'https://
 item_32 = Item.create(name: "Black Jumpsuit", category: "Dress", img_url: 'https://di2ponv0v5otw.cloudfront.net/posts/2019/04/02/5ca401fe969d1f7af1be8ebf/m_5ca402539d3b78a34f2973b7.jpg', user_id: 1)
 
 
+<<<<<<< HEAD
+>>>>>>> 0f44c9f6496cdd516e30a7612c81b82e87dcce18
+=======
 
+>>>>>>> defec649db099057f61dd423b55a4c1bb76f46e4
 
 outfit_1 = Outfit.create(user_id: 1)
 outfit_2 = Outfit.create(user_id: 1)
