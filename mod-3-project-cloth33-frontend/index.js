@@ -281,9 +281,12 @@ function createClothesViewer(){
         //userId = myUserId
         console.log(userId)
         renderNewItems(json.items)
+
     })
 
 }
+
+
 
 
 
