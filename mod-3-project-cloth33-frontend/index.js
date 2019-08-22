@@ -192,11 +192,6 @@ const addNewItem = (parentNode=null) => {
 }
 
 
-
-if (item.error) {
-    createItemHandler(item.error)
-}
-createItemElements(item)
 // }).then(user=>{
 //     // this is being passed as a global variable
 //     if (user.error) {
@@ -393,7 +388,7 @@ function createOutfitCreator(){
                         console.log(currentOutfit)
                     }
                     else
-                        if(outfitDiv.childNodes.length < 4){
+                        if(outfitDiv.childNodes.length < 6){
                             myBtn.innerHTML = 'Remove'
                             outfitDiv.append(itemDiv)
                             currentOutfit.push(item)
