@@ -18,8 +18,6 @@ const spanErrorLogin = document.getElementById("span-error-login")
 const spanErrorItems = document.getElementById("span-error-items")
 const itemCounter = document.getElementById('item-counter')
 
-
-
 document.addEventListener('DOMContentLoaded' , ()=>{
     hideElement(newClothingDiv , false)
     hideElement(navBar , false)
@@ -124,13 +122,15 @@ const createItemElements = (item , prependItem=false , parentElement=null) => {
     if(parentElement == null)
         parentElement = mainPageContent
     let itemDiv = document.createElement('div')
+    itemDiv.className = 'card w-25 container-flex'
     let itemNameH3 = document.createElement('h4')
         itemNameH3.innerText = item.name
     let itemImage = document.createElement('img')
-        itemImage.className = 'item-avatar'
+        itemImage.className = 'w-100 text-center col'
         itemImage.src = item.img_url
     let deleteButton = document.createElement('button')
         deleteButton.innerHTML = 'X'
+        deleteButton.className = 'btn btn-purple'
 
     deleteButton.addEventListener("click", event =>{
         fetch(`${hostURL}items/${item.id}`, {
@@ -419,4 +419,23 @@ function createOutfitCreator(){
     })
     //unrenderMPC();
     //mainPageContent.appendChild(clothingDiv)
+}
+
+function createGrid(xCount = 3 , yCount = 3){
+    let mainGrid = doument.createElement('div')
+    mainGrid.className = 'container'
+    mainPageContent.appendChild(mainGrid)
+    for(let i = 0; i < xCount; i++){
+        let myRow = document.createElement('div')
+        myRow.className = 'row'
+        mainGrid.appendChild(myRow)
+        for(let j = 0; j < yCount; j++){
+            myCol = document.createElement('div')
+            myCol.className = 'col'
+            myRow.appendChild(myCol)
+        }
+    }
+
+    console.log(mainGrid)
+    return mainGrid
 }
