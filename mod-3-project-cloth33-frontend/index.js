@@ -12,7 +12,10 @@ const loginForm = document.getElementById('login-form')
 const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
 const createButton = document.getElementById('create-button')
-
+const itemAddButton = document.getElementById('item-button')
+// Error Span Handlers
+const spanErrorLogin = document.getElementById("span-error-login")
+const spanErrorItems = document.getElementById("span-error-items")
 
 
 
@@ -104,14 +107,9 @@ const createUser = (name, newUserForm) =>{
 }
 
 const createUserErrorHandler = (error) => {
-    let errorSpan = document.createElement('span')
-    errorSpan.innerText = error
-
-    createButton.after(errorSpan)
-
+    spanErrorLogin.innerText = error
+    // createButton.after(errorSpan)
 }
-
-
 
 // load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
 const renderNewItems = (items , prependItems , parentElement=null) => {
@@ -171,34 +169,29 @@ const addNewItem = (parentNode=null) => {
         })
         .then(resp => resp.json())
         .then(item => {
-            createItemElements(item , true , parentNode)
+
+            if(item.error) {
+                createItemErrorHandler(item.error)
+                // console.log(item.error)
+            }else {
+                createItemElements(item , true , parentNode)
+            }
             // console.log(item)
         })
 }
+// Find error span obj
 
-
-
-if (item.error) {
-    createItemHandler(item.error)
+const createItemErrorHandler = (error) => {
+    // let itemErrorSpan = document.createElement('span')
+    // itemErrorSpan.innerText = error
+    spanErrorItems.innerText = error
+    itemAddButton.after(itemErrorSpan)
 }
-createItemElements(item)
-// }).then(user=>{
-//     // this is being passed as a global variable
-//     if (user.error) {
-//         //  username already exists
-//         console.error(user.error)
-//         createUserErrorHandler(user.error)
-//     }else {
-//         // user successfully created 
-//         userId = user['id']
-//         console.log(user)
-//         hideElement(newUserForm, false)
-//     }
-// })
-// }
 
-
-
+window.addEventListener('click', () => {
+    spanErrorLogin.innerText = ''
+    spanErrorItems.innerText = ''
+})
 
 
 
