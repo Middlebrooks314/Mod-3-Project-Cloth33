@@ -40,7 +40,8 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 unrenderMPC();
                 mainPageContent.appendChild(newClothingDiv)
                 hideElement(newClothingDiv , true)
-                renderNewItems(userInfo.items)
+                console.dir(userInfo.items)
+                renderNewItems(userInfo.items.reverse() , false)
                 console.log(userInfo.items)
                 
         })
@@ -110,13 +111,15 @@ const createUserErrorHandler = (error) => {
 
 
 // load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
-const renderNewItems = (items) => {
+const renderNewItems = (items , prependItems , parentElement=null) => {
     for(const item of items){
-        createItemElements(item)    
+        createItemElements(item , prependItems , parentElement)    
     }    
 }
 
-const createItemElements = (item) => {
+const createItemElements = (item , prependItem=false , parentElement=null) => {
+    if(parentElement == null)
+        parentElement = mainPageContent
     let itemDiv = document.createElement('div')
     let itemNameH3 = document.createElement('h4')
         itemNameH3.innerText = item.name
@@ -133,19 +136,22 @@ const createItemElements = (item) => {
     })
         itemDiv.append(itemNameH3, itemImage, deleteButton)
         //closetDiv.append(itemDiv)
-        mainPageContent.append(itemDiv)
+
+        prependItem ? parentElement.prepend(itemDiv) : parentElement.append(itemDiv)
+        //mainPageContent.append(itemDiv)
 
 }
 
 itemForm.addEventListener('submit', (event) => {
     event.preventDefault()
-    addNewItem()
+    addNewItem(mainPageContent.children[1])
+    console.log(mainPageContent.children[1])
     itemForm.img.value = ''
     itemForm.name.value = ''
     itemForm.category.value = ''
     
 })
-const addNewItem = () => {
+const addNewItem = (parentNode=null) => {
         let formData = {
             name: itemForm.name.value,
             category: itemForm.category.value,
@@ -162,7 +168,7 @@ const addNewItem = () => {
         })
         .then(resp => resp.json())
         .then(item => {
-            createItemElements(item)
+            createItemElements(item , true , parentNode)
             // console.log(item)
         })
 }
