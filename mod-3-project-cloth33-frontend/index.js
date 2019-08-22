@@ -12,6 +12,10 @@ const loginForm = document.getElementById('login-form')
 const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
 const createButton = document.getElementById('create-button')
+const itemAddButton = document.getElementById('item-button')
+// Error Span Handlers
+const spanErrorLogin = document.getElementById("span-error-login")
+const spanErrorItems = document.getElementById("span-error-items")
 const itemCounter = document.getElementById('item-counter')
 
 
@@ -105,14 +109,9 @@ const createUser = (name, newUserForm) =>{
 }
 
 const createUserErrorHandler = (error) => {
-    let errorSpan = document.createElement('span')
-    errorSpan.innerText = error
-
-    createButton.after(errorSpan)
-
+    spanErrorLogin.innerText = error
+    // createButton.after(errorSpan)
 }
-
-
 
 // load closet / clothes manager to ADD , VIEW , and , DELETE CLOTHES
 const renderNewItems = (items , prependItems , parentElement=null) => {
@@ -178,37 +177,34 @@ const addNewItem = (parentNode=null) => {
         })
         .then(resp => resp.json())
         .then(item => {
-            createItemElements(item , true , parentNode)
-            //console.log('freiche')
-            console.log(itemCounter.innerText)
-            //itemCounter.innerHTML = 'freiche'
-            let count = parseInt(itemCounter.innerText , 10)
+
+            if(item.error) {
+                createItemErrorHandler(item.error)
+                // console.log(item.error)
+            }else {
+                createItemElements(item , true , parentNode)
+                
+                let count = parseInt(itemCounter.innerText , 10)
             //console.dir(count)
             count++;
             itemCounter.innerHTML = count;
-            //itemCounter.innerText = parseInt(itemCounter.innerText , 10)++
-            //console.log(item)
+            }
+            // console.log(item)
         })
 }
+// Find error span obj
 
+const createItemErrorHandler = (error) => {
+    // let itemErrorSpan = document.createElement('span')
+    // itemErrorSpan.innerText = error
+    spanErrorItems.innerText = error
+    itemAddButton.after(itemErrorSpan)
+}
 
-// }).then(user=>{
-//     // this is being passed as a global variable
-//     if (user.error) {
-//         //  username already exists
-//         console.error(user.error)
-//         createUserErrorHandler(user.error)
-//     }else {
-//         // user successfully created 
-//         userId = user['id']
-//         console.log(user)
-//         hideElement(newUserForm, false)
-//     }
-// })
-// }
-
-
-
+window.addEventListener('click', () => {
+    spanErrorLogin.innerText = ''
+    spanErrorItems.innerText = ''
+})
 
 
 
