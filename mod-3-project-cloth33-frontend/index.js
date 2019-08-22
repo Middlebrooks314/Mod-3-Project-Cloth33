@@ -13,10 +13,11 @@ const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
 const createButton = document.getElementById('create-button')
 const itemAddButton = document.getElementById('item-button')
-// Error Span Handlers
-const spanErrorLogin = document.getElementById("span-error-login")
-const spanErrorItems = document.getElementById("span-error-items")
 const itemCounter = document.getElementById('item-counter')
+// Error Span Handlers
+const spanErrorCreate = document.getElementById("span-error-create")
+const spanErrorItems = document.getElementById("span-error-items")
+const spanErrorLogin = document.getElementById("span-error-login")
 
 document.addEventListener('DOMContentLoaded' , ()=>{
     hideElement(newClothingDiv , false)
@@ -41,15 +42,19 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             fetch(`${hostURL}login/${username}`)
             .then(resp => resp.json())
             .then(userInfo => {
-                unrenderMPC();
-                mainPageContent.appendChild(newClothingDiv)
-                hideElement(newClothingDiv , true)
-                console.dir(userInfo.items)
-                renderNewItems(userInfo.items.reverse() , false)
-                console.log(userInfo.items)
-                hideElement(navBar , true)
-                itemCounter.innerHTML = userInfo['items'].length
-                
+                if (userInfo.error){
+                    console.error(userInfo)
+                    loginUserHandler(userInfo.error)
+                }else {
+                    unrenderMPC();
+                    mainPageContent.appendChild(newClothingDiv)
+                    hideElement(newClothingDiv , true)
+                    // console.dir(userInfo.items)
+                    renderNewItems(userInfo.items.reverse() , false)
+                    // console.log(userInfo.items)
+                    hideElement(navBar , true)
+                    itemCounter.innerHTML = userInfo['items'].length
+                }      
         })
     }
 
@@ -70,7 +75,8 @@ document.addEventListener('DOMContentLoaded' , ()=>{
 
 
     const loginUserHandler = (error) => {
-        
+        spanErrorLogin.innerText = error
+
     }
 
 
@@ -132,7 +138,7 @@ const createUser = (name, newUserForm) =>{
 }
 
 const createUserErrorHandler = (error) => {
-    spanErrorLogin.innerText = error
+    spanErrorCreate.innerText = error
     // createButton.after(errorSpan)
 }
 
@@ -227,8 +233,9 @@ const createItemErrorHandler = (error) => {
 }
 
 window.addEventListener('click', () => {
-    spanErrorLogin.innerText = ''
+    spanErrorCreate.innerText = ''
     spanErrorItems.innerText = ''
+    spanErrorLogin.innerText = ''
 })
 
 
