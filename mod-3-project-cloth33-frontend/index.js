@@ -118,19 +118,22 @@ const renderNewItems = (items , prependItems , parentElement=null) => {
     }    
 }
 
-const createItemElements = (item , prependItem=false , parentElement=null) => {
+// appends after a specific element if called as an arg
+const createItemElements = (item , prependItem=false , parentElement=null , appendAfter=false) => {
     if(parentElement == null)
         parentElement = mainPageContent
-    let itemDiv = document.createElement('div')
-    itemDiv.className = 'card w-25 container-flex'
+    let itemDiv = document.createElement('span')
+    itemDiv.className = 'card w-25 mx-2 mb-3 mt-3 d-inline-flex'
     let itemNameH3 = document.createElement('h4')
         itemNameH3.innerText = item.name
+
     let itemImage = document.createElement('img')
-        itemImage.className = 'w-100 text-center col'
+        itemImage.className = 'item-avatar text-center col'
         itemImage.src = item.img_url
+
     let deleteButton = document.createElement('button')
         deleteButton.innerHTML = 'X'
-        deleteButton.className = 'btn btn-purple'
+        deleteButton.className = 'btn btn-purple mx-2 mt-2 mb-2'
 
     deleteButton.addEventListener("click", event =>{
         fetch(`${hostURL}items/${item.id}`, {
@@ -146,21 +149,25 @@ const createItemElements = (item , prependItem=false , parentElement=null) => {
         itemDiv.append(itemNameH3, itemImage, deleteButton)
         //closetDiv.append(itemDiv)
 
-        prependItem ? parentElement.prepend(itemDiv) : parentElement.append(itemDiv)
+        if(appendAfter)
+            parentElement.after(itemDiv)
+        else
+            prependItem ? parentElement.prepend(itemDiv) : parentElement.append(itemDiv)
         //mainPageContent.append(itemDiv)
 
 }
 
 itemForm.addEventListener('submit', (event) => {
     event.preventDefault()
-    addNewItem(mainPageContent.children[1])
-    console.log(mainPageContent.children[1])
+    //addNewItem()
+    addNewItem(mainPageContent.children[0] , true)
+    console.log(mainPageContent.children[0])
     itemForm.img.value = ''
     itemForm.name.value = ''
     itemForm.category.value = ''
     
 })
-const addNewItem = (parentNode=null) => {
+const addNewItem = (parentNode=null , appendAfter=false) => {
         let formData = {
             name: itemForm.name.value,
             category: itemForm.category.value,
@@ -182,7 +189,7 @@ const addNewItem = (parentNode=null) => {
                 createItemErrorHandler(item.error)
                 // console.log(item.error)
             }else {
-                createItemElements(item , true , parentNode)
+                createItemElements(item , true , parentNode , appendAfter)
                 
                 let count = parseInt(itemCounter.innerText , 10)
             //console.dir(count)
@@ -305,15 +312,13 @@ function createOutfitViewer(){
 // this function will only be called when the user is logged in, due to the button-action
 function createClothesViewer(){
     // this renders clothes
-    mainPageContent.appendChild(itemForm)
+    mainPageContent.appendChild(newClothingDiv)
     fetch(`${hostURL}users/${userId}`)
     .then(resp =>{
         return resp.json();
     }).then(json =>{
-        console.log(json)
-        //console.log(json['items'][0]['img_url'])
-        //userId = myUserId
-        console.log(userId)
+        //console.log(json)
+        //console.log(userId)
         renderNewItems(json.items.reverse())
 
         itemCounter.innerHTML = json['items'].length
@@ -348,19 +353,20 @@ function createOutfitCreator(){
         //console.log(json['items'][0]['img_url'])
         //userId = myUserId
         json.items.forEach(item =>{
-            let itemDiv = document.createElement('div')
+            let itemDiv = document.createElement('span')
             itemDiv.id = item['id']
-            itemDiv.className = 'card m-2 w-25'
+            itemDiv.className = 'card m-2 w-25 row d-inline-flex'
+
             let itemNameH3 = document.createElement('h4')
                 itemNameH3.innerText = item.name
                 itemNameH3.className = 'text-center'
 
-            let imgDiv = document.createElement('div')
+            //let imgDiv = document.createElement('div')
             let itemImage = document.createElement('img')
-                itemImage.className = 'item-avatar w-75 text-center'
+                itemImage.className = 'item-avatar text-center col'
                 itemImage.src = item.img_url
 
-                imgDiv.appendChild(itemImage)
+                //imgDiv.appendChild(itemImage)
         
 
             // creates the add / removal button
@@ -368,7 +374,7 @@ function createOutfitCreator(){
             myBtn.innerHTML = 'Add To Outfit'
             myBtn.className = 'btn btn-primary'
 
-                itemDiv.append(itemNameH3, imgDiv , myBtn)
+                itemDiv.append(itemNameH3, itemImage , myBtn)
                 clothingDiv.append(itemDiv)
 
                 // event listener to add an item to the outfit
@@ -421,21 +427,3 @@ function createOutfitCreator(){
     //mainPageContent.appendChild(clothingDiv)
 }
 
-function createGrid(xCount = 3 , yCount = 3){
-    let mainGrid = doument.createElement('div')
-    mainGrid.className = 'container'
-    mainPageContent.appendChild(mainGrid)
-    for(let i = 0; i < xCount; i++){
-        let myRow = document.createElement('div')
-        myRow.className = 'row'
-        mainGrid.appendChild(myRow)
-        for(let j = 0; j < yCount; j++){
-            myCol = document.createElement('div')
-            myCol.className = 'col'
-            myRow.appendChild(myCol)
-        }
-    }
-
-    console.log(mainGrid)
-    return mainGrid
-}

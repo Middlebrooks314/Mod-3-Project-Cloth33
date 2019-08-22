@@ -26,6 +26,13 @@
     display: flex;
 }
 
+.img-avatar{
+
+    width: 75%;
+    max-width: 75%;
+    height: 512px;
+}
+
 .debugger{
     border: 5px solid red;
 }
