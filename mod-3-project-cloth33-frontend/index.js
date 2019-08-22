@@ -16,6 +16,7 @@ const itemAddButton = document.getElementById('item-button')
 // Error Span Handlers
 const spanErrorLogin = document.getElementById("span-error-login")
 const spanErrorItems = document.getElementById("span-error-items")
+const itemCounter = document.getElementById('item-counter')
 
 
 
@@ -49,6 +50,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 renderNewItems(userInfo.items.reverse() , false)
                 console.log(userInfo.items)
                 hideElement(navBar , true)
+                itemCounter.innerHTML = userInfo['items'].length
                 
         })
     }
@@ -133,7 +135,13 @@ const createItemElements = (item , prependItem=false , parentElement=null) => {
     deleteButton.addEventListener("click", event =>{
         fetch(`${hostURL}items/${item.id}`, {
             method: "DELETE"
-        }).then(event.target.parentNode.remove())
+        }).then(()=>{
+            event.target.parentNode.remove()
+            let count = parseInt(itemCounter.innerText , 10)
+            //console.dir(count)
+            count--;
+            itemCounter.innerHTML = count;
+        })
     })
         itemDiv.append(itemNameH3, itemImage, deleteButton)
         //closetDiv.append(itemDiv)
@@ -175,6 +183,11 @@ const addNewItem = (parentNode=null) => {
                 // console.log(item.error)
             }else {
                 createItemElements(item , true , parentNode)
+                
+                let count = parseInt(itemCounter.innerText , 10)
+            //console.dir(count)
+            count++;
+            itemCounter.innerHTML = count;
             }
             // console.log(item)
         })
@@ -297,12 +310,13 @@ function createClothesViewer(){
     .then(resp =>{
         return resp.json();
     }).then(json =>{
-        //console.log(json)
+        console.log(json)
         //console.log(json['items'][0]['img_url'])
         //userId = myUserId
         console.log(userId)
-        renderNewItems(json.items)
+        renderNewItems(json.items.reverse())
 
+        itemCounter.innerHTML = json['items'].length
     })
 
 }
@@ -370,7 +384,7 @@ function createOutfitCreator(){
                         console.log(currentOutfit)
                     }
                     else
-                        if(outfitDiv.childNodes.length < 4){
+                        if(outfitDiv.childNodes.length < 6){
                             myBtn.innerHTML = 'Remove'
                             outfitDiv.append(itemDiv)
                             currentOutfit.push(item)
@@ -403,8 +417,6 @@ function createOutfitCreator(){
             })
         })
     })
-
-
     //unrenderMPC();
     //mainPageContent.appendChild(clothingDiv)
 }

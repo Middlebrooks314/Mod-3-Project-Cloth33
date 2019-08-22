@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
 
+    <title>Cloth33</title>
     <!-- BOOTSTRAP LINKS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -32,34 +33,44 @@
         </div>
     </nav>
 
-    <div id="main-page-content" class="p-5">
-        <div class="card w-50 text-center"> <!-- This should disappear after 'logging in' --> <!-- Also this is a wrapper div-->
-            <form id="login-form" >
-                <h3>Log In</h3>
-                
-                <input id="log-input" type="text" name="username" value="" placeholder="Username" class="input-text">
-                <input type="password" name="password" value="" placeholder="Password" class="input-text">
-                <br>
-                <input type="submit" name="submit" value="Login" class="submit">
-            </form>
-        </div>
-
-        <div class="card w-50"> <!-- This should disappear after 'logging in' --> <!-- Also this is a wrapper div-->
-            <form id="new-user-form" >
-                <h3>Create Account</h3>
-                
-                <input type="text" name="username" value="" placeholder="Username" class="input-text">
-                <input type="password" name="password" value="" placeholder="Password" class="input-text">
-                <br>
-                <input id='create-button' type="submit" name="submit" value="Login" class="submit">
-                <span id="span-error-login"></span>
-            </form>
+    <div id="main-page-content" class="text-center mt-2 mb-2 px-2">
+        <img class='w-100 rounded-bottom' src="images/shirtpic.png">
+       
+        <div id="another-wrapper">
+                <div id="wrapper" class="row px-5 pt-2 w-33 d-inline-flex">
+                        <div class="card w-50 text-center bg-gw pt-2 col"> <!-- This should disappear after 'logging in' --> <!-- Also this is a wrapper div-->
+                            <form id="login-form" class="form-group">
+                                <h3>Log In</h3>
+                                
+                                <input id="log-input" type="text" name="username" value="" placeholder="Username" class="form-control text-center mb-1">
+                                <input type="password" name="password" value="" placeholder="Password" class="form-control text-center">
+                                <br>
+                                <input type="submit" name="submit" value="Login" class="submit btn btn-purple text-gw">
+                            </form>
+                        </div>
+            
+                        <div class="mt-5 mx-2">
+                            <h2 class="text-center mt-4"> - OR - </h2>
+                        </div>
+            
+                        <div class="card w-50 text-center bg-gw pt-2 col"> <!-- This should disappear after 'logging in' --> <!-- Also this is a wrapper div-->
+                            <form id="new-user-form" class="form-group">
+                                <h3>Create Account</h3>
+                                
+                                <input type="text" name="username" value="" placeholder="Username" class="form-control text-center mb-1">
+                                <input type="password" name="password" value="" placeholder="Password" class="form-control text-center">
+                                <br>
+                                <input id='create-button' type="submit" name="submit" value="Create Account" class="submit btn btn-purple text-gw">
+                                <span id="span-error-login"></span>
+                            </form>
+                        </div>
+                    </div>
         </div>
 
         <div id="new-item">  
             <form id="item-form" >
                 <h3>Add Clothing</h3>
-                
+                <h3>Item Count: <span id="item-counter">0</span></h3>
                 <input type="text" name="name" value="" placeholder="Item Name" class="input-text">
                 <input type="text" name="img" value="" placeholder="Image Url" class="input-text">
                 <input type="text" name="category" value="" placeholder="Category" class="input-text">
