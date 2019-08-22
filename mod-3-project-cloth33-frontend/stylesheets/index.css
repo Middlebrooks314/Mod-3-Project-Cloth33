@@ -13,3 +13,19 @@
 .bg-gw , .btn-gw{
     background: ghostwhite;
 }
+
+.width-stretch{
+    min-width: 100%;
+    display: flex;
+}
+
+.w-33{
+    min-width: 33%;
+    width: 75%;
+    max-width: 75%;
+    display: flex;
+}
+
+.debugger{
+    border: 5px solid red;
+}

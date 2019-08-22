@@ -12,7 +12,7 @@ const loginForm = document.getElementById('login-form')
 const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
 const createButton = document.getElementById('create-button')
-
+const itemCounter = document.getElementById('item-counter')
 
 
 
@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 renderNewItems(userInfo.items.reverse() , false)
                 console.log(userInfo.items)
                 hideElement(navBar , true)
+                itemCounter.innerHTML = userInfo['items'].length
                 
         })
     }
@@ -135,7 +136,13 @@ const createItemElements = (item , prependItem=false , parentElement=null) => {
     deleteButton.addEventListener("click", event =>{
         fetch(`${hostURL}items/${item.id}`, {
             method: "DELETE"
-        }).then(event.target.parentNode.remove())
+        }).then(()=>{
+            event.target.parentNode.remove()
+            let count = parseInt(itemCounter.innerText , 10)
+            //console.dir(count)
+            count--;
+            itemCounter.innerHTML = count;
+        })
     })
         itemDiv.append(itemNameH3, itemImage, deleteButton)
         //closetDiv.append(itemDiv)
@@ -172,16 +179,19 @@ const addNewItem = (parentNode=null) => {
         .then(resp => resp.json())
         .then(item => {
             createItemElements(item , true , parentNode)
-            // console.log(item)
+            //console.log('freiche')
+            console.log(itemCounter.innerText)
+            //itemCounter.innerHTML = 'freiche'
+            let count = parseInt(itemCounter.innerText , 10)
+            //console.dir(count)
+            count++;
+            itemCounter.innerHTML = count;
+            //itemCounter.innerText = parseInt(itemCounter.innerText , 10)++
+            //console.log(item)
         })
 }
 
 
-
-if (item.error) {
-    createItemHandler(item.error)
-}
-createItemElements(item)
 // }).then(user=>{
 //     // this is being passed as a global variable
 //     if (user.error) {
@@ -304,12 +314,13 @@ function createClothesViewer(){
     .then(resp =>{
         return resp.json();
     }).then(json =>{
-        //console.log(json)
+        console.log(json)
         //console.log(json['items'][0]['img_url'])
         //userId = myUserId
         console.log(userId)
-        renderNewItems(json.items)
+        renderNewItems(json.items.reverse())
 
+        itemCounter.innerHTML = json['items'].length
     })
 
 }
@@ -377,7 +388,7 @@ function createOutfitCreator(){
                         console.log(currentOutfit)
                     }
                     else
-                        if(outfitDiv.childNodes.length < 4){
+                        if(outfitDiv.childNodes.length < 6){
                             myBtn.innerHTML = 'Remove'
                             outfitDiv.append(itemDiv)
                             currentOutfit.push(item)
@@ -410,8 +421,6 @@ function createOutfitCreator(){
             })
         })
     })
-
-
     //unrenderMPC();
     //mainPageContent.appendChild(clothingDiv)
 }
