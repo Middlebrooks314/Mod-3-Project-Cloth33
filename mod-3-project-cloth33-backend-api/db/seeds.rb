@@ -12,44 +12,6 @@ user_1 = User.create(username: "Molly")
 user_3 = User.create(username: "Mitch")
 
 
-<<<<<<< HEAD
-item_1 = Item.create(name: "Basic Blue Shirt", category: "Shirt", img_url: 'https://m.media-amazon.com/images/I/71soGD-jw0L._SR500,500_.jpg', user_id: 1)
-item_2 = Item.create(name: "Basic Black Shirt", category: "Shirt", img_url: 'https://shirtsofcotton.com/en/media/catalog/product/cache/10/image/1200x1200/9df78eab33525d08d6e5fb8d27136e95/s/h/shirtsofcotton-t-shirt-soc-10-front-1200px_1.jpg', user_id: 1)
-item_3 = Item.create(name: "Jeans", category: "Pants", img_url: 'https://www.pacsun.com/dw/image/v2/AAJE_PRD/on/demandware.static/-/Sites-pacsun_storefront_catalog/default/dwa114bdae/product_images/0860445380252NEW_00_349.jpg?sw=690&sh=1070&sm=fit', user_id: 1)
-item_4 = Item.create(name: "Vans Blue Shorts", category: "Pants", img_url: 'https://assets.adidas.com/images/w_385,h_385,f_auto,q_auto:sensitive,fl_lossy/ecf1733c290d42e9a81ca833017c0b2f_9366/ultimate365-shorts.jpg', user_id: 1)
-item_5 = Item.create(name: "Gucci Belt", category: "Accessory", img_url: 'https://cdn-images.farfetch-contents.com/12/13/24/61/12132461_10136995_600.jpg', user_id: 1)
-item_6 = Item.create(name: "Off-White Heels", category: "Accessory", img_url: 'https://images.prod.meredith.com/product/1230112e1fb1161426542d723ed2e393/1556877686626/l/high-heel-shoes-women-black-off-white-c-o-virgil-abloh-heels', user_id: 1)
-item_7 = Item.create(name: "Fascinator", category: "Accessory", img_url: 'https://i.etsystatic.com/8653643/r/il/0e0b8b/1688302639/il_794xN.1688302639_df6c.jpg', user_id: 1)
-item_8 = Item.create(name: "Maria Pinto Blue Sophia Dress", category: "Dress", img_url: 'http://mrs-o.org/storage/9b96ca3cd3285bfb65847f3cf8a781ab_large.jpg?__SQUARESPACE_CACHEVERSION=1378690296028', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_10 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_11 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_12 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_13 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_14 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_15= Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_16 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_17 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-# item_9 = Item.create(name: "", category: "", img_url: '', user_id: 1)
-=======
 # Tops
 
 item_1 = Item.create(name: "Basic Blue Shirt", category: "Top", img_url: 'https://m.media-amazon.com/images/I/71soGD-jw0L._SR500,500_.jpg', user_id: 1)
@@ -137,7 +99,11 @@ item_31 = Item.create(name: "Shirt Dress", category: "Dress", img_url: 'https://
 item_32 = Item.create(name: "Black Jumpsuit", category: "Dress", img_url: 'https://di2ponv0v5otw.cloudfront.net/posts/2019/04/02/5ca401fe969d1f7af1be8ebf/m_5ca402539d3b78a34f2973b7.jpg', user_id: 1)
 
 
+<<<<<<< HEAD
 >>>>>>> 0f44c9f6496cdd516e30a7612c81b82e87dcce18
+=======
+
+>>>>>>> defec649db099057f61dd423b55a4c1bb76f46e4
 
 outfit_1 = Outfit.create(user_id: 1)
 outfit_2 = Outfit.create(user_id: 1)
