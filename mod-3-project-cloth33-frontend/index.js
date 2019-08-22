@@ -1,6 +1,7 @@
 const hostURL = 'http://localhost:3000/'
 const defaultElementStyle = 'flex'
 
+const navBar = document.getElementById('nav-buttons')
 const newClothingDiv = document.getElementById('new-item')
 const itemForm = document.getElementById('item-form')
 //const closetDiv = document.getElementById('item-container')
@@ -17,6 +18,7 @@ const createButton = document.getElementById('create-button')
 
 document.addEventListener('DOMContentLoaded' , ()=>{
     hideElement(newClothingDiv , false)
+    hideElement(navBar , false)
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
         createUser(newUserForm.username.value, newUserForm);
@@ -43,6 +45,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 console.dir(userInfo.items)
                 renderNewItems(userInfo.items.reverse() , false)
                 console.log(userInfo.items)
+                hideElement(navBar , true)
                 
         })
     }
