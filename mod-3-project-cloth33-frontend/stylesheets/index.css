@@ -1,8 +1,14 @@
-@font-face{
-    
-    src: url(https://fonts.googleapis.com/css?family=Merriweather+Sans&display=swap);
-    
+@import url('https://fonts.googleapis.com/css?family=Merriweather+Sans&display=swap');
+
+h1{
+    font-size: 4em;
 }
+
+.main-font{
+    font-family: 'Merriweather Sans', sans-serif;
+}
+
+
 .bg-purple , .btn-purple {
     background: rebeccapurple;
 }
@@ -41,3 +47,5 @@
 .debugger{
     border: 5px solid red;
 }
+
+
