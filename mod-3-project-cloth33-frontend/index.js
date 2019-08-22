@@ -423,6 +423,7 @@ function createOutfitCreator(){
 
 function createGrid(xCount = 3 , yCount = 3){
     let mainGrid = doument.createElement('div')
+    mainGrid.className = 'container'
     mainPageContent.appendChild(mainGrid)
     for(let i = 0; i < xCount; i++){
         let myRow = document.createElement('div')
@@ -435,6 +436,6 @@ function createGrid(xCount = 3 , yCount = 3){
         }
     }
 
-
+    console.log(mainGrid)
     return mainGrid
 }
