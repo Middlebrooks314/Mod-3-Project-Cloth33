@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         
         unrenderMPC();
+        formOn = false;
         //mainPageContent.appendChild(newClothingForm)
         createClothesViewer();
         console.log('Cloth Viewer')
@@ -74,12 +75,14 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     document.getElementById('outfits').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
+        formOn = false;
         createOutfitViewer();
         //console.log('outfit viewer')
     })
     document.getElementById('outfit-creator').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
         unrenderMPC();
+        formOn = false;
         createOutfitCreator();
         // console.log('outfit creator')
     })
@@ -300,7 +303,7 @@ function createOutfitViewer(){
             //holder.appendChild(document.createElement('hr'))
             let deleteButton = document.createElement('button')
             deleteButton.innerHTML = 'Delete!'
-            deleteButton.className = 'col text-center btn btn-purple text-gw'
+            deleteButton.className = 'col btn btn-purple text-gw px-5'   // OI
             deleteButton.addEventListener('click' , ()=>{
                 //console.log('wee')
                 console.log(json)
@@ -364,7 +367,8 @@ function makeToggler(){
 
 
     function toggleForm(){
-        if(!formOn){
+        console.log(formOn)
+        if(formOn == false){
             itemToggle.after(newClothingDiv)
             itemToggle.innerHTML = 'Close'
         }
@@ -453,6 +457,7 @@ function createOutfitCreator(){
                     itemDiv.append(itemNameH3, itemImage , myBtn)
                     clothingDiv.append(itemDiv)
 
+
                     // event listener to add an item to the outfit
                     myBtn.addEventListener('click' , ()=>{
                         if(itemDiv.parentNode.id == outfitDiv.id){
@@ -512,6 +517,8 @@ function createOutfitCreator(){
             outfitDiv.appendChild(outfitP)
             clothingDiv.appendChild(clothingP)
         }
+
+        clothingDiv.appendChild(document.createElement('hr'))
 
     })
     //unrenderMPC();
