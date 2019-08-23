@@ -1,3 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap" ');
+
+h1{
+    font-size: 4em;
+}
+
+h3{
+    font-size: 1em;
+}
+
+.title-font{
+    font-family: 'Merriweather Sans', sans-serif;
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
+}
+
+
 .bg-purple , .btn-purple {
     background: rebeccapurple;
 }
@@ -7,11 +27,11 @@
 }
 
 .text-gw{
-    color: ghostwhite;
+    color: lavender;
 }
 
 .bg-gw , .btn-gw{
-    background: ghostwhite;
+    background: lavender;
 }
 
 .width-stretch{
@@ -26,6 +46,47 @@
     display: flex;
 }
 
+.img-avatar{
+
+    width: 75%;
+    max-width: 75%;
+    height: 512px;
+}
+
 .debugger{
     border: 5px solid red;
+}
+
+.main-button{
+    color: black;
+    font-weight: normal;
+    transition: color 250ms
+}
+
+.main-button:hover{
+    color:rebeccapurple;
+    transition: color 375ms;
+
+}
+
+.form-toggle{
+    color: rgb(194, 173, 221);
+    text-decoration: none;
+}
+
+.form-toggle:hover{
+    text-decoration: underline;
+    transition: text-decoration 250ms;
+}
+
+.seperator-bar{
+    background: rgba(102, 51, 153, 0.356);
+}
+
+.link333{
+    color: ghostwhite;
+}
+
+.link:hover{
+    color: rebeccapurple
 }
