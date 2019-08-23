@@ -18,7 +18,7 @@ const itemCounter = document.getElementById('item-counter')
 const spanErrorCreate = document.getElementById("span-error-create")
 const spanErrorItems = document.getElementById("span-error-items")
 const spanErrorLogin = document.getElementById("span-error-login")
-const itemCounter = document.getElementById('item-counter')
+//const itemCounter = document.getElementById('item-counter')
 //const clothingBtn = document.getElementById('item-button')
 
 
@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 console.error(userInfo)
                 loginUserHandler(userInfo.error)
             }else {
+                userId = userInfo['id']
                 unrenderMPC();
                 makeToggler();
 
@@ -125,7 +126,7 @@ const createUser = (name, newUserForm) =>{
             // user successfully created 
             //loggedIn = true;
             userId = user['id']
-            console.log(user)
+            console.log(user['id'])
             hideElement(newUserForm, false)
 
 
@@ -241,15 +242,21 @@ const addNewItem = (parentNode=null , appendAfter=false) => {
 // Find error span obj
 
 const createItemErrorHandler = (error) => {
-    // let itemErrorSpan = document.createElement('span')
-    // itemErrorSpan.innerText = error
-    spanErrorItems.innerText = error
-    itemAddButton.after(itemErrorSpan)
+    let itemErrorSpan = document.createElement('span')
+    //itemErrorSpan.innerText = error
+    //spanErrorItems.innerText = error
+    itemErrorSpan.innerHTML = error
+    mainPageContent.prepend(itemErrorSpan)
+    console.log(error)
+
+    window.addEventListener('click' , ()=>{
+        itemErrorSpan.innerHTML = ''
+    })
 }
 
 window.addEventListener('click', () => {
     spanErrorCreate.innerText = ''
-    spanErrorItems.innerText = ''
+    //spanErrorItems.innerText = ''
     spanErrorLogin.innerText = ''
 })
 
@@ -352,18 +359,22 @@ function createOutfitViewer(){
 // this function will only be called when the user is logged in, due to the button-action
 function createClothesViewer(){
     // this renders clothes
+    mainPageContent.appendChild(newClothingDiv)
+    hideElement(newClothingDiv , false)
     makeToggler();
+    console.log(userId)
 
-    //mainPageContent.appendChild(newClothingDiv)
     fetch(`${hostURL}users/${userId}`)
     .then(resp =>{
         return resp.json();
     }).then(json =>{
-        //console.log(json)
+        console.log(json)
         //console.log(userId)
-        renderNewItems(json.items.reverse())
+        if(json['items'].length > 0){
+            renderNewItems(json.items.reverse())
+            itemCounter.innerHTML = json['items'].length
+        }
 
-        itemCounter.innerHTML = json['items'].length
     })
 
 }
@@ -380,14 +391,15 @@ function makeToggler(){
 
 
     function toggleForm(){
-        console.log(formOn)
+
         if(formOn == false){
+            hideElement(newClothingDiv , true)
             itemToggle.after(newClothingDiv)
             itemToggle.innerHTML = 'Close'
         }
         else{
-            //hideElement(newClothingDiv , false)
-            mainPageContent.removeChild(newClothingDiv)
+            hideElement(newClothingDiv , false)
+            //mainPageContent.removeChild(newClothingDiv)
             itemToggle.innerHTML = 'Add New Clothing'
         }
 
@@ -401,6 +413,8 @@ function makeToggler(){
 
     newClothingDiv.addEventListener('submit' , (e)=>{
         //e.preventDefault();
+
+        formOn = true
         toggleForm();
         console.log('cream freiche')
     })
