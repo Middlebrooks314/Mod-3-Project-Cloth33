@@ -51,15 +51,13 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 renderNewItems(userInfo.items.reverse() , false)
                 //console.log(userInfo.items)
                 hideElement(navBar , true)
-                itemCounter.innerHTML = userInfo['items'].length
-
-
-                
+                itemCounter.innerHTML = userInfo['items'].length         
         })
     }
 
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
+        
         unrenderMPC();
         //mainPageContent.appendChild(newClothingForm)
         createClothesViewer();
@@ -137,8 +135,8 @@ const createItemElements = (item , prependItem=false , parentElement=null , appe
         itemImage.src = item.img_url
 
     let deleteButton = document.createElement('button')
-        deleteButton.innerHTML = 'X'
-        deleteButton.className = 'btn btn-purple mx-2 mt-1 mb-2'
+        deleteButton.innerHTML = 'Delete'
+        deleteButton.className = 'btn btn-purple mx-2 mt-1 mb-2 text-white'
 
     deleteButton.addEventListener("click", event =>{
         fetch(`${hostURL}items/${item.id}`, {
@@ -335,23 +333,26 @@ function createClothesViewer(){
 
 
 function makeToggler(){
-    const itemToggle = document.createElement('a')
+    let itemToggle = document.createElement('p')
     itemToggle.innerHTML = 'Add New Clothing'
+    itemToggle.className = 'form-toggle text-right mr-2'
+
     mainPageContent.appendChild(itemToggle)
+
     mainPageContent.appendChild(document.createElement('br'))
 
     itemToggle.addEventListener('click' , ()=>{
         //mainPageContent.prepend(newClothingDiv)
-        toggleForm();
+        if(!formOn){
+            itemToggle.after(newClothingDiv)
+            itemToggle.innerHTML = 'Close'
+        }
+        else{
+            mainPageContent.removeChild(newClothingDiv)
+            itemToggle.innerHTML = 'Add New Clothing'
+        }
         formOn = !formOn
     })
-}
-
-function toggleForm(){
-    if(!formOn)
-        mainPageContent.prepend(newClothingDiv)
-    else
-        mainPageContent.removeChild(newClothingDiv)
 }
 
 function createOutfitCreator(){
@@ -359,13 +360,28 @@ function createOutfitCreator(){
     // create the clothing-creator div
     let outfitDiv = document.createElement('div')
     outfitDiv.id = 'outfit-div'
+    outfitDiv.className = 'mt-4 mb-4'
     mainPageContent.appendChild(outfitDiv)
 
     // create and populate the clothing div
     let clothingDiv = document.createElement('div')
     clothingDiv.id = 'clothing-div'
-    clothingDiv.className = 'bg-purple p-2'
+    clothingDiv.className = 'bg-gw p-2'
+    clothingDiv.appendChild(document.createElement('hr'))
     mainPageContent.appendChild(clothingDiv)
+
+    // one big purple line
+    let myHeader = document.createElement('header')
+    myHeader.className = 'seperator-bar card border-none pt-2'
+    let title = document.createElement('p')
+    title.innerHTML = 'Your Collection'
+    title.className = 'text-gw text-center mb-2'
+    myHeader.appendChild(title)
+    // thus ends the purple line
+
+    clothingDiv.appendChild(myHeader)
+
+
 
     let currentOutfit = []
 
@@ -391,12 +407,12 @@ function createOutfitCreator(){
                 itemImage.src = item.img_url
 
                 //imgDiv.appendChild(itemImage)
-        
+            
 
             // creates the add / removal button
             let myBtn = document.createElement('button')
             myBtn.innerHTML = 'Add To Outfit'
-            myBtn.className = 'btn btn-primary'
+            myBtn.className = 'btn btn-purple text-gw'
 
                 itemDiv.append(itemNameH3, itemImage , myBtn)
                 clothingDiv.append(itemDiv)
@@ -414,7 +430,7 @@ function createOutfitCreator(){
                         console.log(currentOutfit)
                     }
                     else
-                        if(outfitDiv.childNodes.length < 6){
+                        if(outfitDiv.childNodes.length < 7){    // change this childcount to determine the peoper
                             myBtn.innerHTML = 'Remove'
                             outfitDiv.append(itemDiv)
                             currentOutfit.push(item)
@@ -425,9 +441,10 @@ function createOutfitCreator(){
 
         // add save-features to the outfit
         let saveButton = document.createElement('button')
-        saveButton.className = 'btn btn-danger'
-        saveButton.innerHTML = 'SAVE'
+        saveButton.className = 'btn btn-purple b-block text-gw'
+        saveButton.innerHTML = 'Save'
         outfitDiv.appendChild(saveButton)
+        outfitDiv.appendChild(document.createElement('br'))
         saveButton.addEventListener('click' , ()=>{
             console.dir(currentOutfit)
             //console.log(myUserId)

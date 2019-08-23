@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Merriweather+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito&display=swap" ');
 
 h1{
     font-size: 4em;
 }
 
-.main-font{
+.title-font{
     font-family: 'Merriweather Sans', sans-serif;
+}
+
+*{
+    font-family: 'Nunito', sans-serif;
 }
 
 
@@ -48,4 +53,26 @@ h1{
     border: 5px solid red;
 }
 
+.main-button{
+    color: black;
+    transition: color 250ms
+}
 
+.main-button:hover{
+    color:rebeccapurple;
+    transition: color 375ms
+}
+
+.form-toggle{
+    color: rgb(194, 173, 221);
+    text-decoration: none;
+}
+
+.form-toggle:hover{
+    text-decoration: underline;
+    transition: text-decoration 250ms;
+}
+
+.seperator-bar{
+    background: rgba(102, 51, 153, 0.356);
+}
