@@ -39,50 +39,30 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     })
 
     const loginUser = (username) => {
-            fetch(`${hostURL}login/${username}`)
-            .then(resp => resp.json())
-            .then(userInfo => {
-                if (userInfo.error){
-                    console.error(userInfo)
-                    loginUserHandler(userInfo.error)
-                }else {
-                    unrenderMPC();
-                    mainPageContent.appendChild(newClothingDiv)
-                    hideElement(newClothingDiv , true)
-                    // console.dir(userInfo.items)
-                    renderNewItems(userInfo.items.reverse() , false)
-                    // console.log(userInfo.items)
-                    hideElement(navBar , true)
-                    itemCounter.innerHTML = userInfo['items'].length
-                }      
-        })
+        fetch(`${hostURL}login/${username}`)
+        .then(resp => resp.json())
+        .then(userInfo => {
+            if (userInfo.error){
+                console.error(userInfo)
+                loginUserHandler(userInfo.error)
+            }else {
+                unrenderMPC();
+                mainPageContent.appendChild(newClothingDiv)
+                hideElement(newClothingDiv , true)
+                // console.dir(userInfo.items)
+                renderNewItems(userInfo.items.reverse() , false)
+                // console.log(userInfo.items)
+                hideElement(navBar , true)
+                itemCounter.innerHTML = userInfo['items'].length
+            }      
+    })
     }
-
-// }).then(user=>{
-//     // this is being passed as a global variable
-//     if (user.error) {
-//         //  username already exists
-//         console.error(user.error)
-//         createUserErrorHandler(user.error)
-//     }else {
-//         // user successfully created 
-//         userId = user['id']
-//         console.log(user)
-//         hideElement(newUserForm, false)
-//     }
-// })
-// }
 
 
     const loginUserHandler = (error) => {
         spanErrorLogin.innerText = error
 
     }
-
-
-
-
-
 
     document.getElementById('clothes').addEventListener('click' , ()=>{
         // check for the user-id, make sure it is there before going through these events
