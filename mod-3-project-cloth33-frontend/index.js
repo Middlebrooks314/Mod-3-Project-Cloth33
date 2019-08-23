@@ -7,7 +7,7 @@ const itemForm = document.getElementById('item-form')
 //const closetDiv = document.getElementById('item-container')
 const mainPageContent = document.getElementById('main-page-content')
 // DOMContentLoaded
-let userId = 1
+let userId = 0
 const loginForm = document.getElementById('login-form')
 const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded' , ()=>{
                 renderNewItems(userInfo.items.reverse() , false)
 
                 hideElement(navBar , true)
+                userId = userInfo['id']
                 itemCounter.innerHTML = userInfo['items'].length         
         })
     }
@@ -425,77 +426,93 @@ function createOutfitCreator(){
         // console.log(json)
         //console.log(json['items'][0]['img_url'])
         //userId = myUserId
-        json.items.forEach(item =>{
-            let itemDiv = document.createElement('span')
-            itemDiv.id = item['id']
-            itemDiv.className = 'card m-2 w-25 row d-inline-flex'
 
-            let itemNameH3 = document.createElement('h4')
-                itemNameH3.innerText = item.name
-                itemNameH3.className = 'text-center mt-1'
+        if(json['items'].length > 0){
+            json.items.forEach(item =>{
+                let itemDiv = document.createElement('span')
+                itemDiv.id = item['id']
+                itemDiv.className = 'card m-2 w-25 row d-inline-flex'
 
-            //let imgDiv = document.createElement('div')
-            let itemImage = document.createElement('img')
-                itemImage.className = 'item-avatar text-center col mb-2 mt-2'
-                itemImage.src = item.img_url
+                let itemNameH3 = document.createElement('h4')
+                    itemNameH3.innerText = item.name
+                    itemNameH3.className = 'text-center mt-1'
 
-                //imgDiv.appendChild(itemImage)
-            
+                //let imgDiv = document.createElement('div')
+                let itemImage = document.createElement('img')
+                    itemImage.className = 'item-avatar text-center col mb-2 mt-2'
+                    itemImage.src = item.img_url
 
-            // creates the add / removal button
-            let myBtn = document.createElement('button')
-            myBtn.innerHTML = 'Add To Outfit'
-            myBtn.className = 'btn btn-purple text-gw'
+                    //imgDiv.appendChild(itemImage)
+                
 
-                itemDiv.append(itemNameH3, itemImage , myBtn)
-                clothingDiv.append(itemDiv)
+                // creates the add / removal button
+                let myBtn = document.createElement('button')
+                myBtn.innerHTML = 'Add To Outfit'
+                myBtn.className = 'btn btn-purple text-gw'
 
-                // event listener to add an item to the outfit
-                myBtn.addEventListener('click' , ()=>{
-                    if(itemDiv.parentNode.id == outfitDiv.id){
-                        clothingDiv.prepend(itemDiv)
-                        myBtn.innerHTML = 'Add To Outfit'
-                        for(let i = 0; i < currentOutfit.length; i++){
-                            if(item == currentOutfit[i]){
-                                currentOutfit = currentOutfit.splice(i , 1)
+                    itemDiv.append(itemNameH3, itemImage , myBtn)
+                    clothingDiv.append(itemDiv)
+
+                    // event listener to add an item to the outfit
+                    myBtn.addEventListener('click' , ()=>{
+                        if(itemDiv.parentNode.id == outfitDiv.id){
+                            clothingDiv.prepend(itemDiv)
+                            myBtn.innerHTML = 'Add To Outfit'
+                            for(let i = 0; i < currentOutfit.length; i++){
+                                if(item == currentOutfit[i]){
+                                    currentOutfit = currentOutfit.splice(i , 1)
+                                }
                             }
+                            console.log(currentOutfit)
                         }
-                        console.log(currentOutfit)
-                    }
-                    else
-                        if(outfitDiv.childNodes.length < 7){    // change this childcount to determine the peoper
-                            myBtn.innerHTML = 'Remove'
-                            outfitDiv.append(itemDiv)
-                            currentOutfit.push(item)
-                        }
-                })
-        
-        })
-
-        // add save-features to the outfit
-        let saveButton = document.createElement('button')
-        saveButton.className = 'btn btn-purple b-block text-gw'
-        saveButton.innerHTML = 'Save'
-        outfitDiv.appendChild(saveButton)
-        outfitDiv.appendChild(document.createElement('br'))
-        saveButton.addEventListener('click' , ()=>{
-            console.dir(currentOutfit)
-            //console.log(myUserId)
-            fetch(hostURL + 'outfits' , {
-                method: 'POST' , 
-                headers: {
-                    'Content-Type' : 'application/json' , 
-                    'Accept' : 'application/json'
-                } ,
-                body: JSON.stringify({
-                    'user_id' : userId ,
-                    'items' : currentOutfit
-                })
-            }).then(resp =>{
-                console.log(resp)
-                return resp.json();
+                        else
+                            if(outfitDiv.childNodes.length < 7){    // change this childcount to determine the peoper
+                                myBtn.innerHTML = 'Remove'
+                                outfitDiv.append(itemDiv)
+                                currentOutfit.push(item)
+                            }
+                    })
+            
             })
-        })
+
+            // add save-features to the outfit
+            let saveButton = document.createElement('button')
+            saveButton.className = 'btn btn-purple b-block text-gw'
+            saveButton.innerHTML = 'Save'
+            outfitDiv.appendChild(saveButton)
+            outfitDiv.appendChild(document.createElement('br'))
+            saveButton.addEventListener('click' , ()=>{
+                console.dir(currentOutfit)
+                //console.log(myUserId)
+                fetch(hostURL + 'outfits' , {
+                    method: 'POST' , 
+                    headers: {
+                        'Content-Type' : 'application/json' , 
+                        'Accept' : 'application/json'
+                    } ,
+                    body: JSON.stringify({
+                        'user_id' : userId ,
+                        'items' : currentOutfit
+                    })
+                }).then(resp =>{
+                    console.log(resp)
+                    return resp.json();
+                })
+            })
+        }
+        else{
+            outfitP = document.createElement('p')
+            outfitP.innerHTML = 'No Clothing in Wardrobe'
+            outfitP.className = 'mt-5 mb-3'
+
+            clothingP = document.createElement('p')
+            clothingP.innerHTML = 'Add Clothing to your Wardrobe to make an Outfit'
+            clothingP.className = 'mt-3 mb-3'
+
+            outfitDiv.appendChild(outfitP)
+            clothingDiv.appendChild(clothingP)
+        }
+
     })
     //unrenderMPC();
     //mainPageContent.appendChild(clothingDiv)
