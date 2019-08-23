@@ -5,6 +5,10 @@ h1{
     font-size: 4em;
 }
 
+h3{
+    font-size: 1em;
+}
+
 .title-font{
     font-family: 'Merriweather Sans', sans-serif;
 }
@@ -23,11 +27,11 @@ h1{
 }
 
 .text-gw{
-    color: ghostwhite;
+    color: lavender;
 }
 
 .bg-gw , .btn-gw{
-    background: ghostwhite;
+    background: lavender;
 }
 
 .width-stretch{

@@ -17,15 +17,20 @@ const itemAddButton = document.getElementById('item-button')
 const spanErrorLogin = document.getElementById("span-error-login")
 const spanErrorItems = document.getElementById("span-error-items")
 const itemCounter = document.getElementById('item-counter')
+//const clothingBtn = document.getElementById('item-button')
+
+
 
 let formOn = false // use this to toggle the form on and off on the toggleForm function
 
 document.addEventListener('DOMContentLoaded' , ()=>{
+
     hideElement(newClothingDiv , false)
     hideElement(navBar , false)
     newUserForm.addEventListener('submit' , (event) =>{
         event.preventDefault();
         createUser(newUserForm.username.value, newUserForm);
+
 
         
         
@@ -45,11 +50,11 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             .then(userInfo => {
                 unrenderMPC();
                 makeToggler();
-                //mainPageContent.appendChild(newClothingDiv)
+
                 hideElement(newClothingDiv , true)
-                //console.dir(userInfo.items)
+
                 renderNewItems(userInfo.items.reverse() , false)
-                //console.log(userInfo.items)
+
                 hideElement(navBar , true)
                 itemCounter.innerHTML = userInfo['items'].length         
         })
@@ -102,9 +107,24 @@ const createUser = (name, newUserForm) =>{
             createUserErrorHandler(user.error)
         }else {
             // user successfully created 
+            //loggedIn = true;
             userId = user['id']
             console.log(user)
             hideElement(newUserForm, false)
+
+
+            // moved this from up-top
+                unrenderMPC();  // repeat code, will refactor later
+                makeToggler();
+    
+                hideElement(newClothingDiv , true)
+    
+                //renderNewItems(userInfo.items.reverse() , false)
+    
+                hideElement(navBar , true)
+                itemCounter.innerHTML = 0
+            
+
         }
     })
 }
@@ -333,25 +353,38 @@ function createClothesViewer(){
 
 
 function makeToggler(){
+
     let itemToggle = document.createElement('p')
     itemToggle.innerHTML = 'Add New Clothing'
     itemToggle.className = 'form-toggle text-right mr-2'
 
     mainPageContent.appendChild(itemToggle)
-
     mainPageContent.appendChild(document.createElement('br'))
 
-    itemToggle.addEventListener('click' , ()=>{
-        //mainPageContent.prepend(newClothingDiv)
+
+    function toggleForm(){
         if(!formOn){
             itemToggle.after(newClothingDiv)
             itemToggle.innerHTML = 'Close'
         }
         else{
+            //hideElement(newClothingDiv , false)
             mainPageContent.removeChild(newClothingDiv)
             itemToggle.innerHTML = 'Add New Clothing'
         }
+
         formOn = !formOn
+    }
+
+    itemToggle.addEventListener('click' , ()=>{
+        //mainPageContent.prepend(newClothingDiv)
+        toggleForm();
+    })
+
+    newClothingDiv.addEventListener('submit' , (e)=>{
+        //e.preventDefault();
+        toggleForm();
+        console.log('cream freiche')
     })
 }
 
@@ -360,7 +393,7 @@ function createOutfitCreator(){
     // create the clothing-creator div
     let outfitDiv = document.createElement('div')
     outfitDiv.id = 'outfit-div'
-    outfitDiv.className = 'mt-4 mb-4'
+    outfitDiv.className = 'mt-4 mb-5 '
     mainPageContent.appendChild(outfitDiv)
 
     // create and populate the clothing div
@@ -372,7 +405,7 @@ function createOutfitCreator(){
 
     // one big purple line
     let myHeader = document.createElement('header')
-    myHeader.className = 'seperator-bar card border-none pt-2'
+    myHeader.className = 'seperator-bar card border-0 pt-2'
     let title = document.createElement('p')
     title.innerHTML = 'Your Collection'
     title.className = 'text-gw text-center mb-2'
@@ -399,11 +432,11 @@ function createOutfitCreator(){
 
             let itemNameH3 = document.createElement('h4')
                 itemNameH3.innerText = item.name
-                itemNameH3.className = 'text-center'
+                itemNameH3.className = 'text-center mt-1'
 
             //let imgDiv = document.createElement('div')
             let itemImage = document.createElement('img')
-                itemImage.className = 'item-avatar text-center col'
+                itemImage.className = 'item-avatar text-center col mb-2 mt-2'
                 itemImage.src = item.img_url
 
                 //imgDiv.appendChild(itemImage)
