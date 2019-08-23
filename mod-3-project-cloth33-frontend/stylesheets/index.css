@@ -59,12 +59,14 @@ h3{
 
 .main-button{
     color: black;
+    font-weight: normal;
     transition: color 250ms
 }
 
 .main-button:hover{
     color:rebeccapurple;
-    transition: color 375ms
+    transition: color 375ms;
+
 }
 
 .form-toggle{
