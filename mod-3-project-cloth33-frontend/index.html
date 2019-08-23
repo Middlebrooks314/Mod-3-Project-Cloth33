@@ -12,10 +12,10 @@
 
 <!-- BODY -->
 <body>
-    <nav class="nav-bar bg-gw pb-5 pt-2">
+    <nav class="nav-bar bg-gw pb-3 pt-3">
         <div class='row'>
             <div class="col">
-                    <h1 class="text-center">Cloth<span class="text-purple">33</span></h1>
+                    <h1 class="text-center title-font">Cloth<span class="text-purple title-font">33</span></h1>
             </div>
         </div>
         
@@ -23,9 +23,10 @@
             <div class="col">
                 <div class="text-center">
                     <hr class="mt-4 mb-0 mx-3">
-                    <button class="btn px-5" id="clothes">Clothes</button>
-                    <button class="btn px-5" id="outfits">Outfits</button>
-                    <button class="btn px-5" id="outfit-creator">Create Outfit</button>
+                    <h3 class="text-center main-font mt-1">You have <span id="item-counter" class="title-font text-purple">0</span> listed items</h3>
+                    <button class="btn px-5 main-button" id="clothes">Clothes</button>
+                    <button class="btn px-5 main-button" id="outfits">Outfits</button>
+                    <button class="btn px-5 main-button" id="outfit-creator">Create Outfit</button>
                 </div>
             </div>
         </div>
@@ -67,10 +68,9 @@
                     </div>
 
 
-        <div id="new-item" class="card bg-gw text-center w-50">  
-                <h3 class='text-center'>Add Clothing</h3>
-                <h3 class="text-center">Item Count: <span id="item-counter">0</span></h3>
+        <div id="new-item" class="card bg-gw w-50 container pt-1">  
             <form id="item-form" class="form-group w-100 mx-0">
+                <h3 class='text-center'>Add Clothing</h3>
 
                 <input type="text" name="name" value="" placeholder="Item Name" class="form-control text-center">
                 <input type="text" name="img" value="" placeholder="Image Url" class="form-control text-center">
@@ -86,6 +86,10 @@
         </div>
 
     </div>
+    <footer class="pt-5 pb-4 mt-5 text-center text-gw page-footer bg-gw px-2">
+        <p class='text-purple'>Hello. So you've decided to take the #Project333Challenge. That is a great step towards practicing minimalism, and conserving creative decision making power.  This application will help you manage your 33 items of clothing, and allow you to plan out some outfits. Go ahead, give it a try!
+                If you need to revisit the rules of the challenge you can visit the official <a class='' href='https://bemorewithless.com/project-333/'>Project333</a> site.</p>
+    </footer>
 
 
     <!-- Our Js -->
