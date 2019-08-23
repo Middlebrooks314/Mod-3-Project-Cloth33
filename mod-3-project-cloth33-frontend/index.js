@@ -23,6 +23,8 @@ const spanErrorLogin = document.getElementById("span-error-login")
 
 
 
+
+
 let formOn = false // use this to toggle the form on and off on the toggleForm function
 
 document.addEventListener('DOMContentLoaded' , ()=>{
