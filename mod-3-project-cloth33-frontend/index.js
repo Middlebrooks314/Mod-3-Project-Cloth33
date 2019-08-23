@@ -13,9 +13,11 @@ const newUserForm = document.getElementById('new-user-form')
 const nameInput = document.getElementById('log-input')
 const createButton = document.getElementById('create-button')
 const itemAddButton = document.getElementById('item-button')
+const itemCounter = document.getElementById('item-counter')
 // Error Span Handlers
-const spanErrorLogin = document.getElementById("span-error-login")
+const spanErrorCreate = document.getElementById("span-error-create")
 const spanErrorItems = document.getElementById("span-error-items")
+const spanErrorLogin = document.getElementById("span-error-login")
 const itemCounter = document.getElementById('item-counter')
 //const clothingBtn = document.getElementById('item-button')
 
@@ -45,20 +47,30 @@ document.addEventListener('DOMContentLoaded' , ()=>{
     })
 
     const loginUser = (username) => {
-            fetch(`${hostURL}login/${username}`)
-            .then(resp => resp.json())
-            .then(userInfo => {
+        fetch(`${hostURL}login/${username}`)
+        .then(resp => resp.json())
+        .then(userInfo => {
+            if (userInfo.error){
+                console.error(userInfo)
+                loginUserHandler(userInfo.error)
+            }else {
                 unrenderMPC();
                 makeToggler();
 
                 hideElement(newClothingDiv , true)
-
+                // console.dir(userInfo.items)
                 renderNewItems(userInfo.items.reverse() , false)
-
+                // console.log(userInfo.items)
                 hideElement(navBar , true)
-                userId = userInfo['id']
-                itemCounter.innerHTML = userInfo['items'].length         
-        })
+                itemCounter.innerHTML = userInfo['items'].length
+            }      
+    })
+    }
+
+
+    const loginUserHandler = (error) => {
+        spanErrorLogin.innerText = error
+
     }
 
     document.getElementById('clothes').addEventListener('click' , ()=>{
@@ -134,7 +146,7 @@ const createUser = (name, newUserForm) =>{
 }
 
 const createUserErrorHandler = (error) => {
-    spanErrorLogin.innerText = error
+    spanErrorCreate.innerText = error
     // createButton.after(errorSpan)
 }
 
@@ -236,8 +248,9 @@ const createItemErrorHandler = (error) => {
 }
 
 window.addEventListener('click', () => {
-    spanErrorLogin.innerText = ''
+    spanErrorCreate.innerText = ''
     spanErrorItems.innerText = ''
+    spanErrorLogin.innerText = ''
 })
 
 
