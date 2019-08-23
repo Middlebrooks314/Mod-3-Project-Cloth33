@@ -82,3 +82,11 @@ h3{
 .seperator-bar{
     background: rgba(102, 51, 153, 0.356);
 }
+
+.link333{
+    color: ghostwhite;
+}
+
+.link:hover{
+    color: rebeccapurple
+}
