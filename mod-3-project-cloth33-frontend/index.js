@@ -18,6 +18,8 @@ const spanErrorLogin = document.getElementById("span-error-login")
 const spanErrorItems = document.getElementById("span-error-items")
 const itemCounter = document.getElementById('item-counter')
 
+let formOn = false // use this to toggle the form on and off on the toggleForm function
+
 document.addEventListener('DOMContentLoaded' , ()=>{
     hideElement(newClothingDiv , false)
     hideElement(navBar , false)
@@ -42,13 +44,16 @@ document.addEventListener('DOMContentLoaded' , ()=>{
             .then(resp => resp.json())
             .then(userInfo => {
                 unrenderMPC();
-                mainPageContent.appendChild(newClothingDiv)
+                makeToggler();
+                //mainPageContent.appendChild(newClothingDiv)
                 hideElement(newClothingDiv , true)
-                console.dir(userInfo.items)
+                //console.dir(userInfo.items)
                 renderNewItems(userInfo.items.reverse() , false)
-                console.log(userInfo.items)
+                //console.log(userInfo.items)
                 hideElement(navBar , true)
                 itemCounter.innerHTML = userInfo['items'].length
+
+
                 
         })
     }
@@ -123,7 +128,7 @@ const createItemElements = (item , prependItem=false , parentElement=null , appe
     if(parentElement == null)
         parentElement = mainPageContent
     let itemDiv = document.createElement('span')
-    itemDiv.className = 'card w-25 mx-2 mb-3 mt-3 d-inline-flex'
+    itemDiv.className = 'card w-25 mx-2 mb-3 mt-3 pt-2 d-inline-flex'
     let itemNameH3 = document.createElement('h4')
         itemNameH3.innerText = item.name
 
@@ -133,7 +138,7 @@ const createItemElements = (item , prependItem=false , parentElement=null , appe
 
     let deleteButton = document.createElement('button')
         deleteButton.innerHTML = 'X'
-        deleteButton.className = 'btn btn-purple mx-2 mt-2 mb-2'
+        deleteButton.className = 'btn btn-purple mx-2 mt-1 mb-2'
 
     deleteButton.addEventListener("click", event =>{
         fetch(`${hostURL}items/${item.id}`, {
@@ -255,8 +260,8 @@ function createOutfitViewer(){
 
 
             // create the holder div for the outfit
-            let holder = document.createElement('div')
-            holder.className = 'card m-3 w-50'
+            let holder = document.createElement('span')
+            holder.className = 'card container m-3 w-25 d-inline-flex'
 
             let subDiv = document.createElement('div')
             subDiv.className = 'row p-3'
@@ -269,14 +274,14 @@ function createOutfitViewer(){
 
                 let img = document.createElement('img')
                 img.src= outfitElements[j]['img_url']
-                img.className = 'col border rounded m-0 p-0'
+                img.className = 'col'
                 subDiv.appendChild(img)
             }
 
-            holder.appendChild(document.createElement('hr'))
+            //holder.appendChild(document.createElement('hr'))
             let deleteButton = document.createElement('button')
             deleteButton.innerHTML = 'Delete!'
-            deleteButton.className = 'col text-center btn btn-primary'
+            deleteButton.className = 'col text-center btn btn-purple text-gw'
             deleteButton.addEventListener('click' , ()=>{
                 //console.log('wee')
                 console.log(json)
@@ -312,7 +317,9 @@ function createOutfitViewer(){
 // this function will only be called when the user is logged in, due to the button-action
 function createClothesViewer(){
     // this renders clothes
-    mainPageContent.appendChild(newClothingDiv)
+    makeToggler();
+
+    //mainPageContent.appendChild(newClothingDiv)
     fetch(`${hostURL}users/${userId}`)
     .then(resp =>{
         return resp.json();
@@ -327,8 +334,25 @@ function createClothesViewer(){
 }
 
 
+function makeToggler(){
+    const itemToggle = document.createElement('a')
+    itemToggle.innerHTML = 'Add New Clothing'
+    mainPageContent.appendChild(itemToggle)
+    mainPageContent.appendChild(document.createElement('br'))
 
+    itemToggle.addEventListener('click' , ()=>{
+        //mainPageContent.prepend(newClothingDiv)
+        toggleForm();
+        formOn = !formOn
+    })
+}
 
+function toggleForm(){
+    if(!formOn)
+        mainPageContent.prepend(newClothingDiv)
+    else
+        mainPageContent.removeChild(newClothingDiv)
+}
 
 function createOutfitCreator(){
 
